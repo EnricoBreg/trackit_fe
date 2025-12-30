@@ -42,6 +42,7 @@ const LoginForm = () => {
       })
       .then((res) => {
         console.log("Request send");
+        console.log("token", res.data);
       })
       .catch(() => {
         console.error("Request error");
