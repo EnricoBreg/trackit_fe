@@ -12,8 +12,6 @@ import {
   Portal,
   Show,
   Text,
-  Link as ChakraLink,
-  For,
   VStack,
 } from "@chakra-ui/react";
 import NavLink from "@/components/NavLink";
@@ -41,7 +39,7 @@ const MainMenu = () => {
   return (
     <Drawer.Root
       open={open}
-      placement="end"
+      placement="start"
       onOpenChange={(e) => setOpen(e.open)}
     >
       <Drawer.Trigger asChild>

@@ -1,12 +1,8 @@
-import { HStack, Link as ChakraLink } from "@chakra-ui/react";
+import Navbar from "@/components/Navbar";
+import { Box } from "@chakra-ui/react";
 import type { AppRouterContext } from "@tanstack/react-query";
-import {
-  Link,
-  Outlet,
-  createRootRouteWithContext,
-} from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import MainMenu from "@/components/MainMenu";
 
 export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: RootLayout,
@@ -14,13 +10,12 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
 
 function RootLayout() {
   return (
-    <>
-      <HStack paddingY={4} paddingX={2}>
-        <MainMenu />
-      </HStack>
-
-      <Outlet />
+    <Box>
+      <Navbar />
+      <Box padding={5}>
+        <Outlet />
+      </Box>
       <TanStackRouterDevtools />
-    </>
+    </Box>
   );
 }
