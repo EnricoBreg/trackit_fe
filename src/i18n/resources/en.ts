@@ -6,6 +6,12 @@ const en = {
       password: "Password",
       login: "Login",
     },
+    main_menu: {
+      titolo: "Main Menu",
+      home: "Home Page",
+      utenti: "Users",
+      about: "About",
+    },
   },
 };
 

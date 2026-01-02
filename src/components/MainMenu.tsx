@@ -18,6 +18,7 @@ import NavLink from "@/components/NavLink";
 import { useState } from "react";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { RxExit } from "react-icons/rx";
+import { useTranslation } from "react-i18next";
 
 interface MainMenuLinkShape {
   to: string;
@@ -25,10 +26,12 @@ interface MainMenuLinkShape {
 }
 
 const MainMenu = () => {
+  const { t } = useTranslation("translation", { keyPrefix: "main_menu" });
+
   const links: MainMenuLinkShape[] = [
-    { to: "/", name: "Home" },
-    { to: "/users", name: "Utenti" },
-    { to: "/about", name: "About" },
+    { to: "/", name: t("home") },
+    { to: "/users", name: t("utenti") },
+    { to: "/about", name: t("about") },
   ];
 
   const [open, setOpen] = useState(false);
@@ -54,7 +57,7 @@ const MainMenu = () => {
         <Drawer.Positioner padding="2">
           <Drawer.Content rounded="md">
             <Drawer.Header>
-              <Drawer.Title>Main Menu</Drawer.Title>
+              <Drawer.Title>{t("titolo")}</Drawer.Title>
             </Drawer.Header>
             <Drawer.Body paddingY="4">
               <Flex

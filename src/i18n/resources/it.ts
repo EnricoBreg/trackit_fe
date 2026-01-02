@@ -6,6 +6,12 @@ const it = {
       password: "Password",
       login: "Entra",
     },
+    main_menu: {
+      titolo: "Menu principale",
+      home: "Pagina principale",
+      utenti: "Utenti",
+      about: "About",
+    },
   },
 };
 
