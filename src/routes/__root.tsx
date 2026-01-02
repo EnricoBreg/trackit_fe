@@ -6,6 +6,7 @@ import {
   createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import MainMenu from "@/components/MainMenu";
 
 export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: RootLayout,
@@ -14,21 +15,10 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
 function RootLayout() {
   return (
     <>
-      <HStack>
-        <ChakraLink asChild>
-          <Link to="/">Home</Link>
-        </ChakraLink>
-        <ChakraLink asChild>
-          <Link to="/users">Users</Link>
-        </ChakraLink>
-        <ChakraLink asChild>
-          <Link to="/about">About</Link>
-        </ChakraLink>
-        <ChakraLink asChild>
-          <Link to="/login">Login</Link>
-        </ChakraLink>
+      <HStack paddingY={4} paddingX={2}>
+        <MainMenu />
       </HStack>
-      <hr />
+
       <Outlet />
       <TanStackRouterDevtools />
     </>

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Provider } from "@/routes/-components/ui/provider";
+import { Provider } from "@/components/ui/provider";
 
 import "./i18n/i18n.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
