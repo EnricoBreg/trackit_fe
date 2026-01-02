@@ -8,7 +8,8 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@resources": ["./src/i18n/resources/index.ts"]
     },
 
     /* Bundler mode */

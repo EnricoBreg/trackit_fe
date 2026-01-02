@@ -9,6 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve("./src"),
+      "@resouces": path.resolve("./src/i18n/resouces/index.ts"),
     },
   },
   plugins: [
