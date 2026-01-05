@@ -13,6 +13,12 @@ const it = {
       about: "About",
       effettuaIlLogin: "Clicca qui per effettuare il login",
     },
+    not_found: {
+      pageNotFound: "Pagina non trovata",
+      message:
+        "Ci dispiace, la pagina che stavi cercando non esiste o è stata spostata. Per favore, controlla l'URL o ritorna alla homepage.",
+      ritornaAllaHome: "Torna alla Home",
+    },
   },
 };
 
