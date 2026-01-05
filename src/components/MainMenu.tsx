@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import type User from "@/entities/User";
 import { useRouter } from "@tanstack/react-router";
+import authService from "@/services/auth-service";
 
 interface MainMenuLinkShape {
   to: string;
@@ -32,17 +33,12 @@ const MainMenu = () => {
   const { t } = useTranslation("translation", { keyPrefix: "main_menu" });
 
   const links: MainMenuLinkShape[] = [
-    { to: "/dashboard", name: t("home") },
-    { to: "/users", name: t("utenti") },
+    { to: "/app/dashboard", name: t("home") },
+    { to: "/app/users", name: t("utenti") },
     { to: "/about", name: t("about") },
   ];
 
-  const router = useRouter();
-  const handleLogout = () => {
-    useAuthStore.getState().clearAuth();
-    setOpen(false);
-    router.navigate({ to: "/login" });
-  };
+  const handleLogout = () => authService.logout();
 
   const [open, setOpen] = useState(false);
 

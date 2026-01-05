@@ -11,15 +11,10 @@ import {
 import logoPlaceholder from "@/assets/palceholders/200x50.svg";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import ApiClient, {
-  type LoginRequest,
-  type LoginResponse,
-} from "@/services/api-client";
+import authService, { type LoginRequest } from "@/services/auth-service";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import { useRouter } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
-
-const apiClient = new ApiClient<LoginResponse>("/auth/login");
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginRequest>();
@@ -29,12 +24,12 @@ const LoginForm = () => {
   const router = useRouter();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: apiClient.login,
+    mutationFn: authService.login,
     onSuccess: (data) => {
       const { accessToken, user } = data;
 
       setAuth(accessToken, user);
-      router.navigate({ to: "/dashboard" });
+      router.navigate({ to: "/app" });
     },
     onError: () => {
       console.log("Login failed");
