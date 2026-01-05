@@ -1,7 +1,6 @@
+import { axiosInstance } from "@/api/axios";
 import type User from "@/entities/User";
 import useAuthStore from "@/hooks/stores/useAuthStore";
-import type { AxiosInstance } from "axios";
-import axios from "axios";
 import router from "@/router";
 
 export interface LoginRequest {
@@ -14,28 +13,33 @@ export interface LoginResponse {
   user: User;
 }
 
-const AUTH_LOGIN_ENDPOINT = "/login";
+const AUTH_LOGIN_ENDPOINT = "/auth/login";
+const AUTH_REFRESH_JWT_ENDPOINT = "/auth/refresh";
+
+const AUTH_LOGIN_ROUTE = "/login";
 
 class AuthService {
-  private baseURL = "http://127.0.0.1:8080/api/auth";
-  private axiosInstance: AxiosInstance;
-
-  constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: this.baseURL,
-    });
-  }
-
   login = (data: LoginRequest) => {
-    return this.axiosInstance
-      .post<LoginResponse>(AUTH_LOGIN_ENDPOINT, data, { withCredentials: true })
+    return axiosInstance
+      .post<LoginResponse>(AUTH_LOGIN_ENDPOINT, data)
       .then((res) => res.data);
   };
 
   logout = () => {
     useAuthStore.getState().clearAuth();
-    router.navigate({ to: AUTH_LOGIN_ENDPOINT });
+    router.navigate({ to: AUTH_LOGIN_ROUTE });
   };
+
+  refresh = () => {
+    return axiosInstance
+      .post<LoginResponse>(AUTH_REFRESH_JWT_ENDPOINT, {})
+      .then((res) => res.data);
+  };
+
+  isPublicEndpoint = (url?: string) =>
+    [AUTH_LOGIN_ENDPOINT, AUTH_REFRESH_JWT_ENDPOINT].some((endpoint) =>
+      url?.includes(endpoint),
+    );
 }
 
 const authService = new AuthService();
