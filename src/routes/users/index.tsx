@@ -1,3 +1,4 @@
+import useUsers from "@/hooks/useUsers";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/users/")({
@@ -5,5 +6,7 @@ export const Route = createFileRoute("/users/")({
 });
 
 function UsersPage() {
-  return <div>Hello "/users/"!</div>;
+  const { data, isLoading, error, isError } = useUsers();
+
+  return { data };
 }
