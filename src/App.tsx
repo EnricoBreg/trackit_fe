@@ -1,11 +1,12 @@
-import "./App.css";
 import { Provider } from "@/components/ui/provider";
+import "./App.css";
 
-import "./i18n/i18n.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import "./i18n/i18n.ts";
 
 import { RouterProvider } from "@tanstack/react-router";
+import AppBootstrap from "./AppBootstrap.tsx";
 import useAuthStore from "./hooks/stores/useAuthStore.ts";
 import queryClient from "./query-client.ts";
 import router from "./router.ts";
@@ -25,8 +26,10 @@ function App() {
   return (
     <Provider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <AppBootstrap>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </AppBootstrap>
       </QueryClientProvider>
     </Provider>
   );
