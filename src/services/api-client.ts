@@ -1,8 +1,19 @@
+import type User from "@/entities/User";
 import type { AxiosRequestConfig } from "axios";
 import axios from "axios";
 
 export interface FetchResponse<T> {
   results: T[];
+}
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  user: User;
 }
 
 const axiosInstance = axios.create({
@@ -25,6 +36,12 @@ class ApiClient<T> {
   get = (id: number | string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)
+      .then((res) => res.data);
+  };
+
+  login = (data: LoginRequest) => {
+    return axiosInstance
+      .post<LoginResponse>(this.endpoint, data, { withCredentials: true })
       .then((res) => res.data);
   };
 }

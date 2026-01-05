@@ -1,8 +1,7 @@
 import type User from "@/entities/User";
 import ms from "ms";
-import FetchResponse from "@/services/api-client";
 import ApiClient from "@/services/api-client";
-import useUserQueryStore from "@/store";
+import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
 import { useQuery } from "@tanstack/react-query";
 
 const apiClient = new ApiClient<User>("/users");
@@ -10,7 +9,7 @@ const apiClient = new ApiClient<User>("/users");
 const useUsers = () => {
   const userQuery = useUserQueryStore((s) => s.userQuery);
 
-  return useQuery<FetchResponse<User>, Error>({
+  return useQuery({
     queryKey: ["/users", userQuery],
     queryFn: () =>
       apiClient.getAll({

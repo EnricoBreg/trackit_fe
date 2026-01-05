@@ -11,6 +11,7 @@ const en = {
       home: "Home Page",
       utenti: "Users",
       about: "About",
+      effettuaIlLogin: "Click here to login",
     },
   },
 };

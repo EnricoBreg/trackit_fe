@@ -8,10 +8,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // Import del routeTree automaticamente generato dal router
 import { routeTree } from "./routeTree.gen";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import useAuthStore from "./hooks/stores/useAuthStore.ts";
 
 // Creazione della nuova istanza del query client
 const queryClient = new QueryClient();
-// Creazione della nnuova istanza del router
+// Creazione della nuova istanza del router
 const router = createRouter({ routeTree, context: { queryClient } });
 
 // Register dell'instanza del router per avere type-safety
@@ -26,6 +27,11 @@ declare module "@tanstack/react-query" {
     queryClient: QueryClient;
   }
 }
+
+// inizializzazione dell'AuthStore in modo che
+// il router sia già a conoscenza per fare
+// eventuali redirect da route protette
+useAuthStore.getState().hydrate();
 
 function App() {
   return (
