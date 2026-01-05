@@ -46,7 +46,11 @@ export const authResponseInterceptor = async (error: any) => {
     // bisogna usare una nuova istanza pulita di axios perché quella esistente ha già gli interceptor
     // collegati, di conseguenza si richierebbero loop infiniti <--- ATTENZIONE!
     const { accessToken: newAccessToken } = await axios
-      .post<LoginResponse>("http://127.0.0.1:8080/api/auth/refresh", {})
+      .post<LoginResponse>(
+        "http://127.0.0.1:8080/api/auth/refresh",
+        {},
+        { withCredentials: true },
+      )
       .then((res) => res.data);
 
     useAuthStore
