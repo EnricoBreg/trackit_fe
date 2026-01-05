@@ -1,8 +1,9 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import fs from "fs";
 import path from "path";
+import { defineConfig } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,4 +21,10 @@ export default defineConfig({
     }),
     react(),
   ],
+  server: {
+    https: {
+      key: fs.readFileSync("./certs/localhost+1-key.pem"),
+      cert: fs.readFileSync("./certs/localhost+1.pem"),
+    },
+  },
 });

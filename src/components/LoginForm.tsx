@@ -1,3 +1,6 @@
+import logoPlaceholder from "@/assets/palceholders/200x50.svg";
+import useAuthStore from "@/hooks/stores/useAuthStore";
+import authService, { type LoginRequest } from "@/services/auth-service";
 import {
   Button,
   Card,
@@ -8,45 +11,35 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import logoPlaceholder from "@/assets/palceholders/200x50.svg";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
-
-interface LoginRequest {
-  username: string;
-  password: string;
-}
+import { PasswordInput } from "./ui/password-input";
 
 const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginRequest>();
-
+  const { register, handleSubmit } = useForm<LoginRequest>();
   const { t } = useTranslation("translation", { keyPrefix: "login" });
 
-  /*
-   * submit handler function
-   */
-  const onSubmit = ({ username, password }: LoginRequest) => {
-    console.log("Submitted");
-    console.log("Username", username);
-    console.log("Password", password);
+  const setAuth = useAuthStore((s) => s.setAuth);
+  const router = useRouter();
 
-    axios
-      .post("http://127.0.0.1:8080/api/auth/login", {
-        username,
-        password,
-      })
-      .then((res) => {
-        console.log("Request send");
-        console.log("token", res.data);
-      })
-      .catch(() => {
-        console.error("Request error");
-      });
+  const { mutate, isPending } = useMutation({
+    mutationFn: authService.login,
+    onSuccess: (data) => {
+      const { accessToken, user } = data;
+
+      setAuth(accessToken, user);
+      router.navigate({ to: "/app" });
+    },
+    onError: () => {
+      console.log("Login failed");
+    },
+  });
+
+  // submit handler function
+  const onSubmit = (formValues: LoginRequest) => {
+    mutate(formValues);
   };
 
   return (
@@ -66,7 +59,7 @@ const LoginForm = () => {
                 </Field.Root>
                 <Field.Root>
                   <Field.Label htmlFor="password">{t("password")}</Field.Label>
-                  <Input
+                  <PasswordInput
                     {...register("password")}
                     id="password"
                     type="password"
@@ -75,7 +68,12 @@ const LoginForm = () => {
               </VStack>
             </Card.Body>
             <Card.Footer>
-              <Button variant="solid" width={"100%"} type="submit">
+              <Button
+                variant="solid"
+                width={"100%"}
+                type="submit"
+                loading={isPending}
+              >
                 {t("login")}
               </Button>
             </Card.Footer>

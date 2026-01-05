@@ -1,25 +1,15 @@
-import "./App.css";
 import { Provider } from "@/components/ui/provider";
+import "./App.css";
 
-import "./i18n/i18n.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import "./i18n/i18n.ts";
 
-// Import del routeTree automaticamente generato dal router
-import { routeTree } from "./routeTree.gen";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
-
-// Creazione della nuova istanza del query client
-const queryClient = new QueryClient();
-// Creazione della nnuova istanza del router
-const router = createRouter({ routeTree, context: { queryClient } });
-
-// Register dell'instanza del router per avere type-safety
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
+import { RouterProvider } from "@tanstack/react-router";
+import AppBootstrap from "./AppBootstrap.tsx";
+import useAuthStore from "./hooks/stores/useAuthStore.ts";
+import queryClient from "./query-client.ts";
+import router from "./router.ts";
 
 declare module "@tanstack/react-query" {
   interface AppRouterContext {
@@ -27,12 +17,19 @@ declare module "@tanstack/react-query" {
   }
 }
 
+// inizializzazione dell'AuthStore in modo che
+// il router sia già a conoscenza per fare
+// eventuali redirect da route protette
+useAuthStore.getState().hydrate();
+
 function App() {
   return (
     <Provider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <AppBootstrap>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </AppBootstrap>
       </QueryClientProvider>
     </Provider>
   );

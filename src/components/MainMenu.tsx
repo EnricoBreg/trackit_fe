@@ -19,6 +19,10 @@ import { useState } from "react";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { RxExit } from "react-icons/rx";
 import { useTranslation } from "react-i18next";
+import useAuthStore from "@/hooks/stores/useAuthStore";
+import type User from "@/entities/User";
+import { useRouter } from "@tanstack/react-router";
+import authService from "@/services/auth-service";
 
 interface MainMenuLinkShape {
   to: string;
@@ -29,15 +33,22 @@ const MainMenu = () => {
   const { t } = useTranslation("translation", { keyPrefix: "main_menu" });
 
   const links: MainMenuLinkShape[] = [
-    { to: "/", name: t("home") },
-    { to: "/users", name: t("utenti") },
+    { to: "/app/dashboard", name: t("home") },
+    { to: "/app/users", name: t("utenti") },
     { to: "/about", name: t("about") },
   ];
 
+  const handleLogout = () => authService.logout();
+
   const [open, setOpen] = useState(false);
 
-  const name = "Mario rossi";
-  const username = "mario.rossi";
+  const user = useAuthStore((s) => s.user) as User | null;
+
+  let nominativo = "";
+  if (user) {
+    if (user.nome && user.cognome) nominativo = user.nome + " " + user.cognome;
+    else nominativo = user.username;
+  }
 
   return (
     <Drawer.Root
@@ -78,24 +89,39 @@ const MainMenu = () => {
                 </VStack>
 
                 <HStack justifyContent="space-between" alignItems="center">
-                  <Flex alignItems="center" gap={2}>
-                    <AvatarGroup>
-                      <Avatar.Root>
-                        <Avatar.Fallback name={name} />
-                        <Avatar.Image src="https://i.pravatar.cc/100" />
-                      </Avatar.Root>
-                    </AvatarGroup>
-
-                    <Box>
-                      <Text fontSize="md">{name}</Text>
-                      <Text fontSize="sm" color="fg.muted">
-                        @{username}
+                  <Show
+                    when={user !== null}
+                    fallback={
+                      <Text fontSize="md">
+                        <NavLink to="/login">{t("effettuaIlLogin")}</NavLink>
                       </Text>
+                    }
+                  >
+                    <Flex alignItems="center" gap={2}>
+                      <AvatarGroup>
+                        <Avatar.Root>
+                          <Avatar.Fallback name={nominativo} />
+                          <Avatar.Image />
+                        </Avatar.Root>
+                      </AvatarGroup>
+
+                      <Box>
+                        <Text fontSize="md">{nominativo}</Text>
+                        <Text fontSize="sm" color="fg.muted">
+                          @{user?.username}
+                        </Text>
+                      </Box>
+                    </Flex>
+                    <Box>
+                      <Button
+                        variant="ghost"
+                        fontSize="sm"
+                        onClick={() => handleLogout()}
+                      >
+                        <RxExit />
+                      </Button>
                     </Box>
-                  </Flex>
-                  <Box>
-                    <RxExit />
-                  </Box>
+                  </Show>
                 </HStack>
               </Flex>
             </Drawer.Body>
