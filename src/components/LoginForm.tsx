@@ -1,3 +1,6 @@
+import logoPlaceholder from "@/assets/palceholders/200x50.svg";
+import useAuthStore from "@/hooks/stores/useAuthStore";
+import authService, { type LoginRequest } from "@/services/auth-service";
 import {
   Button,
   Card,
@@ -8,13 +11,11 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import logoPlaceholder from "@/assets/palceholders/200x50.svg";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import authService, { type LoginRequest } from "@/services/auth-service";
-import useAuthStore from "@/hooks/stores/useAuthStore";
-import { useRouter } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
+import { PasswordInput } from "./ui/password-input";
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginRequest>();
@@ -58,7 +59,7 @@ const LoginForm = () => {
                 </Field.Root>
                 <Field.Root>
                   <Field.Label htmlFor="password">{t("password")}</Field.Label>
-                  <Input
+                  <PasswordInput
                     {...register("password")}
                     id="password"
                     type="password"
