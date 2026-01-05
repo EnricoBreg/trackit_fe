@@ -3,7 +3,7 @@ import { authRequestInterceptor } from "./request-interceptor";
 import { authResponseInterceptor } from "./response-interceptor";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8080/api",
+  baseURL: "https://127.0.0.1:8080/api",
   withCredentials: true,
 });
 

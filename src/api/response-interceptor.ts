@@ -47,7 +47,7 @@ export const authResponseInterceptor = async (error: any) => {
     // collegati, di conseguenza si richierebbero loop infiniti <--- ATTENZIONE!
     const { accessToken: newAccessToken } = await axios
       .post<LoginResponse>(
-        "http://127.0.0.1:8080/api/auth/refresh",
+        "https://127.0.0.1:8080/api/auth/refresh",
         {},
         { withCredentials: true },
       )
