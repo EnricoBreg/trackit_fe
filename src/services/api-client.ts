@@ -2,9 +2,12 @@ import type { AxiosRequestConfig } from "axios";
 
 import { axiosInstance } from "@/api/axios";
 
+/* 
 export interface FetchResponse<T> {
   results: T[];
-}
+} */
+
+export type FetchResponse<T> = T[];
 
 class ApiClient<T> {
   endpoint: string;

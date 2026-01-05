@@ -1,8 +1,8 @@
 import type User from "@/entities/User";
-import ms from "ms";
-import ApiClient from "@/services/api-client";
 import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
+import ApiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
+import ms from "ms";
 
 const apiClient = new ApiClient<User>("/users");
 
