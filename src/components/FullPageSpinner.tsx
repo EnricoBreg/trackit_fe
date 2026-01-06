@@ -1,4 +1,6 @@
-import { Flex, Portal, Spinner } from "@chakra-ui/react";
+import logo from "@/assets/images/Track_IT__logo.png";
+import { Portal, Spinner, VStack } from "@chakra-ui/react";
+import Image from "./Image";
 
 interface Props {
   /** Dimensione dello spinner (default: "xl") */
@@ -16,7 +18,7 @@ export function FullPageSpinner({
 }: Props) {
   return (
     <Portal>
-      <Flex
+      <VStack
         position="fixed"
         top={0}
         left={0}
@@ -27,8 +29,9 @@ export function FullPageSpinner({
         zIndex={9999}
         bg={overlay ? "rgba(255, 255, 255, 0.7)" : "transparent"}
       >
+        <Image width={200} height={50} src={logo} />
         <Spinner size={size} color={color} borderWidth="4px" />
-      </Flex>
+      </VStack>
     </Portal>
   );
 }

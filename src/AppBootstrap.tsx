@@ -7,6 +7,8 @@ const AppBootstrap = ({ children }: { children: React.ReactNode }) => {
   const setBootstrapped = useAuthStore((s) => s.setBootstrapped);
 
   useEffect(() => {
+    const startTime = Date.now();
+
     authService
       .me()
       .then((user) => {
@@ -16,7 +18,13 @@ const AppBootstrap = ({ children }: { children: React.ReactNode }) => {
       })
       .catch(() => {})
       .finally(() => {
-        setBootstrapped();
+        const elapsedTime = Date.now() - startTime;
+        const minDelay = 300;
+
+        setTimeout(
+          () => setBootstrapped(),
+          Math.max(0, minDelay - elapsedTime)
+        );
       });
   }, []);
 
