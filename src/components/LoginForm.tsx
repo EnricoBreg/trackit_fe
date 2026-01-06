@@ -1,4 +1,4 @@
-import logoPlaceholder from "@/assets/placeholders/200x50.svg";
+import logo from "@/assets/images/Track_IT__logo.png";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import authService, { type LoginRequest } from "@/services/auth-service";
 import {
@@ -7,7 +7,6 @@ import {
   Center,
   Container,
   Field,
-  Image,
   Input,
   VStack,
 } from "@chakra-ui/react";
@@ -15,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import Image from "./Image";
 import { PasswordInput } from "./ui/password-input";
 
 const LoginForm = () => {
@@ -47,8 +47,8 @@ const LoginForm = () => {
       <Container>
         <Center h="dvh">
           <Card.Root minW={{ lg: "md", sm: "sm" }} shadow={"md"}>
-            <Card.Header>
-              <Image src={logoPlaceholder} />
+            <Card.Header alignItems="center">
+              <Image width={200} height={50} src={logo} />
               <Card.Title>{t("welcomeToTrackIt")}</Card.Title>
             </Card.Header>
             <Card.Body>
