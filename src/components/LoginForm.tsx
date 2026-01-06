@@ -1,4 +1,4 @@
-import logoPlaceholder from "@/assets/palceholders/200x50.svg";
+import logoPlaceholder from "@/assets/placeholders/200x50.svg";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import authService, { type LoginRequest } from "@/services/auth-service";
 import {
