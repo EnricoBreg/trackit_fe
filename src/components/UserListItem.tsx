@@ -41,16 +41,6 @@ const UserListItem = ({ user }: Props) => {
         </HStack>
       </Card.Body>
       <Card.Footer paddingBottom={0}>
-        {/* <Button variant="subtle" flex="1" asChild>
-          <Link to=".">
-            <LuInfo />
-            {t("info_short")}
-          </Link>
-        </Button>
-        <Button variant="subtle" colorPalette="blue" flex="1">
-          <FaRegMessage />
-          {t("messaggio")}
-        </Button> */}
         <Menu.Root>
           <Menu.Trigger asChild>
             <Button variant="outline">
