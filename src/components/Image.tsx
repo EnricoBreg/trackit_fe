@@ -6,7 +6,7 @@ interface Props {
   src: string;
 }
 
-const Image = ({ width, height, src: image }: Props) => {
+const Image = ({ width = 200, height = 50, src: image }: Props) => {
   return (
     <Box width={width} height={height}>
       <ChakraImage src={image} />
