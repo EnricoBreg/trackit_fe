@@ -1,4 +1,5 @@
 import logoPlaceholder from "@/assets/placeholders/200x50.svg";
+import useAppTranslation from "@/hooks/useTranslation";
 import {
   Box,
   Link as ChakraLink,
@@ -8,10 +9,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
-  const { t } = useTranslation("translation", { keyPrefix: "not_found" });
+  const { t } = useAppTranslation("not_found");
 
   return (
     <Box

@@ -1,6 +1,7 @@
 import { type LoginRequest } from "@/api/requests";
 import logo from "@/assets/images/Track_IT__logo.png";
 import useAuthStore from "@/hooks/stores/useAuthStore";
+import useAppTranslation from "@/hooks/useTranslation";
 import authService from "@/services/auth-service";
 import {
   Button,
@@ -14,13 +15,12 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import Image from "./Image";
 import { PasswordInput } from "./ui/password-input";
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginRequest>();
-  const { t } = useTranslation("translation", { keyPrefix: "login" });
+  const { t } = useAppTranslation("login");
 
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();

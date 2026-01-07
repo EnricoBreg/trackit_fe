@@ -1,10 +1,10 @@
 import UsersList from "@/components/UsersList";
 import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
+import useAppTranslation from "@/hooks/useTranslation";
 import useUsers from "@/hooks/useUsers";
 import usersQueryOptions from "@/queries/usersQuery";
 import { Heading, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/app/users/")({
   component: UsersPage,
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/app/users/")({
 
 function UsersPage() {
   const { isLoading, error } = useUsers();
-  const { t } = useTranslation("translation");
+  const { t } = useAppTranslation();
 
   if (isLoading)
     return (

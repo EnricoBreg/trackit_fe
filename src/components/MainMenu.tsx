@@ -1,5 +1,10 @@
 "use client";
 
+import NavLink from "@/components/NavLink";
+import type User from "@/entities/User";
+import useAuthStore from "@/hooks/stores/useAuthStore";
+import useAppTranslation from "@/hooks/useTranslation";
+import authService from "@/services/auth-service";
 import {
   Avatar,
   AvatarGroup,
@@ -14,15 +19,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import NavLink from "@/components/NavLink";
 import { useState } from "react";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { RxExit } from "react-icons/rx";
-import { useTranslation } from "react-i18next";
-import useAuthStore from "@/hooks/stores/useAuthStore";
-import type User from "@/entities/User";
-import { useRouter } from "@tanstack/react-router";
-import authService from "@/services/auth-service";
 
 interface MainMenuLinkShape {
   to: string;
@@ -30,7 +29,7 @@ interface MainMenuLinkShape {
 }
 
 const MainMenu = () => {
-  const { t } = useTranslation("translation", { keyPrefix: "main_menu" });
+  const { t } = useAppTranslation("main_menu");
 
   const links: MainMenuLinkShape[] = [
     { to: "/app/dashboard", name: t("home") },

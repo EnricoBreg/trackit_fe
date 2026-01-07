@@ -1,4 +1,5 @@
 import type User from "@/entities/User";
+import useAppTranslation from "@/hooks/useTranslation";
 import {
   Avatar,
   Box,
@@ -10,7 +11,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegMessage, FaRegTrashCan } from "react-icons/fa6";
 import { LuInfo } from "react-icons/lu";
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const UserListItem = ({ user }: Props) => {
-  const { t } = useTranslation("translation");
+  const { t } = useAppTranslation();
 
   return (
     <Card.Root flexDirection="row" width={{ base: "sm", md: "lg", xl: "2xl" }}>

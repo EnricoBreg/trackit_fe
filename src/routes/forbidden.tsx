@@ -1,5 +1,6 @@
 import logo from "@/assets/images/Track_IT__logo.png";
 import Image from "@/components/Image";
+import useAppTranslation from "@/hooks/useTranslation";
 import {
   Button,
   Center,
@@ -9,7 +10,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/forbidden")({
   component: ForbiddenPage,
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/forbidden")({
 
 function ForbiddenPage() {
   const router = useRouter();
-  const { t } = useTranslation("translation", { keyPrefix: "forbidden" });
+  const { t } = useAppTranslation("forbidden");
 
   return (
     <Center h="100vh">
