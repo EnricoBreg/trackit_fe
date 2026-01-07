@@ -11,7 +11,9 @@ export const Route = createFileRoute("/app/users/")({
   component: UsersPage,
   loader: ({ context }) => {
     const userQuery = useUserQueryStore.getState().userQuery;
-    return context.queryClient.ensureQueryData(usersQueryOptions(userQuery));
+    return context.queryClient.ensureInfiniteQueryData(
+      usersQueryOptions(userQuery),
+    );
   },
 });
 
