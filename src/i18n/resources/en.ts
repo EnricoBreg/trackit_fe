@@ -1,5 +1,8 @@
 const en = {
   translation: {
+    info_short: "Info",
+    info_long: "Informations",
+    messaggio: "Message",
     login: {
       welcomeToTrackIt: "Welcome to TrackIT. Sign in",
       username: "Username",
