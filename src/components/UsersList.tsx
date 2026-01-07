@@ -7,7 +7,7 @@ const UsersList = () => {
 
   return (
     <VStack spaceY={4}>
-      {data?.map((user) => (
+      {data?.results.map((user) => (
         <UserListItem key={user.id} user={user} />
       ))}
     </VStack>
