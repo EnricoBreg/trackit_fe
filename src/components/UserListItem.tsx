@@ -5,12 +5,14 @@ import {
   Box,
   Button,
   Card,
+  Link as ChakraLink,
   HStack,
   Menu,
   Portal,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Link } from "@tanstack/react-router";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegMessage, FaRegTrashCan } from "react-icons/fa6";
 import { LuInfo } from "react-icons/lu";
@@ -55,9 +57,18 @@ const UserListItem = ({ user }: Props) => {
                   <Box flex="1">{t("messaggio")}</Box>
                 </Menu.Item>
 
-                <Menu.Item value="informazioni">
-                  <LuInfo />
-                  <Box flex="1">{t("info_long")}</Box>
+                <Menu.Item value="informazioni" focusVisibleRing="none">
+                  <Box flex="1">
+                    <ChakraLink asChild>
+                      <Link
+                        to="/app/users/$userId"
+                        params={{ userId: user.id.toString() }}
+                      >
+                        <LuInfo />
+                        {t("info_long")}
+                      </Link>
+                    </ChakraLink>
+                  </Box>
                 </Menu.Item>
 
                 <Menu.Item

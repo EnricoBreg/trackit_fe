@@ -9,7 +9,7 @@ const apiClient = new ApiClient<User>("/users");
 
 const usersQueryOptions = (userQuery: UserQuery) =>
   infiniteQueryOptions<FetchResponse<User>, Error>({
-    queryKey: ["/users", userQuery],
+    queryKey: ["users", userQuery],
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
