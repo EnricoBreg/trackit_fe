@@ -1,7 +1,8 @@
 import useAuthStore from "@/hooks/stores/useAuthStore";
-import authService, { type LoginResponse } from "@/services/auth-service";
+import authService from "@/services/auth-service";
 import axios from "axios";
 import { axiosInstance } from "./axios";
+import { type LoginResponse } from "./responses";
 
 let isRefreshing = false;
 let failedQueue: any[] = [];

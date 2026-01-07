@@ -1,6 +1,7 @@
+import { type LoginRequest } from "@/api/requests";
 import logo from "@/assets/images/Track_IT__logo.png";
 import useAuthStore from "@/hooks/stores/useAuthStore";
-import authService, { type LoginRequest } from "@/services/auth-service";
+import authService from "@/services/auth-service";
 import {
   Button,
   Card,

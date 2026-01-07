@@ -1,17 +1,9 @@
 import { axiosInstance } from "@/api/axios";
+import type { LoginRequest } from "@/api/requests";
+import type { LoginResponse } from "@/api/responses";
 import type User from "@/entities/User";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import router from "@/router";
-
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  accessToken: string;
-  user: User;
-}
 
 const AUTH_LOGIN_ENDPOINT = "/auth/login";
 const AUTH_REFRESH_JWT_ENDPOINT = "/auth/refresh";
