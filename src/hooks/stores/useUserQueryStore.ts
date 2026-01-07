@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface UserQuery {
+export interface UserQuery {
   active?: 0 | 1;
   searchText?: string;
   sortOrder?: string;

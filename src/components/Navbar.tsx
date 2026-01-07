@@ -1,6 +1,7 @@
-import logoPlaceholder from "@/assets/placeholders/200x50.svg";
+import logo from "@/assets/images/Track_IT__logo.png";
 import MainMenu from "@/components/MainMenu";
-import { Image, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
+import Image from "./Image";
 
 const Navbar = () => {
   return (
@@ -10,8 +11,11 @@ const Navbar = () => {
       justifyContent="space-between"
       direction={{ base: "row-reverse", md: "row" }}
     >
-      <MainMenu />
-      <Image src={logoPlaceholder} />
+      <div>
+        <MainMenu />
+        {/* <ColorModeButton /> */}
+      </div>
+      <Image width={200} height={50} src={logo} />
     </Stack>
   );
 };

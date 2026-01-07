@@ -1,13 +1,22 @@
+import UsersList from "@/components/UsersList";
+import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
 import useUsers from "@/hooks/useUsers";
-import { Spinner, Text, VStack } from "@chakra-ui/react";
+import usersQueryOptions from "@/queries/usersQuery";
+import { Heading, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/app/users/")({
   component: UsersPage,
+  loader: ({ context }) => {
+    const userQuery = useUserQueryStore.getState().userQuery;
+    return context.queryClient.ensureQueryData(usersQueryOptions(userQuery));
+  },
 });
 
 function UsersPage() {
-  const { data, isLoading, error, isError } = useUsers();
+  const { isLoading, error } = useUsers();
+  const { t } = useTranslation("translation");
 
   if (isLoading)
     return (
@@ -18,10 +27,12 @@ function UsersPage() {
     );
 
   return (
-    <ul>
-      {data?.map((user) => (
-        <li key={user.id}>{user.nominativo}</li>
-      ))}
-    </ul>
+    <VStack>
+      <Heading as="h3" fontSize={{ base: "2xl", xl: "4xl" }} fontWeight="bold">
+        {t("Utenti")}
+      </Heading>
+      <HStack>filtri...</HStack>
+      <UsersList />
+    </VStack>
   );
 }

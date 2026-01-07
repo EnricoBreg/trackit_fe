@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForbiddenRouteImport } from './routes/forbidden'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -20,6 +21,11 @@ import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForbiddenRoute = ForbiddenRouteImport.update({
+  id: '/forbidden',
+  path: '/forbidden',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/forbidden': typeof ForbiddenRoute
   '/login': typeof LoginRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/': typeof AppIndexRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forbidden': typeof ForbiddenRoute
   '/login': typeof LoginRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app': typeof AppIndexRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/forbidden': typeof ForbiddenRoute
   '/login': typeof LoginRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/': typeof AppIndexRoute
@@ -86,17 +95,26 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/about'
+    | '/forbidden'
     | '/login'
     | '/app/dashboard'
     | '/app/'
     | '/app/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/login' | '/app/dashboard' | '/app' | '/app/users'
+  to:
+    | '/'
+    | '/about'
+    | '/forbidden'
+    | '/login'
+    | '/app/dashboard'
+    | '/app'
+    | '/app/users'
   id:
     | '__root__'
     | '/'
     | '/app'
     | '/about'
+    | '/forbidden'
     | '/login'
     | '/app/dashboard'
     | '/app/'
@@ -107,6 +125,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  ForbiddenRoute: typeof ForbiddenRoute
   LoginRoute: typeof LoginRoute
 }
 
@@ -117,6 +136,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forbidden': {
+      id: '/forbidden'
+      path: '/forbidden'
+      fullPath: '/forbidden'
+      preLoaderRoute: typeof ForbiddenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -184,6 +210,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  ForbiddenRoute: ForbiddenRoute,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
