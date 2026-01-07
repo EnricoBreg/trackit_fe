@@ -19,6 +19,12 @@ const en = {
         "Sorry, the page you’re looking for doesn’t exist or may have been moved. Please check the URL or return to the homepage.",
       ritornaAllaHome: "Go Back Home",
     },
+    forbidden: {
+      accessoNegato: "Access Denied",
+      message: "You do not have the permission to access this resource.",
+      ritornaAllaHome: "Go Back Home",
+      tornaIndietro: "Bo Back",
+    },
   },
 };
 

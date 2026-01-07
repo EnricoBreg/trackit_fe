@@ -19,6 +19,12 @@ const it = {
         "Ci dispiace, la pagina che stavi cercando non esiste o è stata spostata. Per favore, controlla l'URL o ritorna alla homepage.",
       ritornaAllaHome: "Torna alla Home",
     },
+    forbidden: {
+      accessoNegato: "Accesso Negato",
+      message: "Non hai i permessi necessari per accedere a questa risorsa.",
+      ritornaAllaHome: "Torna alla Home",
+      tornaIndietro: "Torna indietro",
+    },
   },
 };
 
