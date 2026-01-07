@@ -1,3 +1,4 @@
+import UsersSortSelector from "@/components/SortSelector";
 import UsersList from "@/components/UsersList";
 import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
 import useAppTranslation from "@/hooks/useTranslation";
@@ -31,7 +32,9 @@ function UsersPage() {
       <Heading as="h3" fontSize={{ base: "2xl", xl: "4xl" }} fontWeight="bold">
         {t("Utenti")}
       </Heading>
-      <HStack>filtri...</HStack>
+      <HStack>
+        <UsersSortSelector />
+      </HStack>
       <UsersList />
     </VStack>
   );

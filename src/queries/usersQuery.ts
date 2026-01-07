@@ -12,9 +12,9 @@ const usersQueryOptions = (userQuery: UserQuery) =>
     queryFn: () =>
       apiClient.getAll({
         params: {
-          active: userQuery.active,
-          search: userQuery.searchText,
-          sorting: userQuery.sortOrder,
+          /* active: userQuery.active,
+          search: userQuery.searchText, */
+          sort: userQuery.sortOrder,
         },
       }),
     staleTime: ms("24h"),
