@@ -1,50 +1,61 @@
 import EntitySelect from "@/components/EntitySelect";
-import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
-import { useDebouncedCallback } from "@/hooks/useDebouncedCallback";
-import useUsers from "@/hooks/useUsers";
+import UserSelect from "@/components/UserSelect";
+import { Button } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/app/dashboard")({
   component: RouteComponent,
 });
 
+interface FormValues {
+  userId: number | string;
+  saluto: string;
+}
+
 function RouteComponent() {
-  const { data, isLoading, fetchNextPage, hasNextPage } = useUsers();
-  const setSearchText = useUserQueryStore((s) => s.setSearchText);
-  const debouncedSearch = useDebouncedCallback(setSearchText);
+  const { control, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      userId: "14",
+      saluto: "grande",
+    },
+  });
 
-  const users = React.useMemo(
-    () => data?.pages.flatMap((page) => page.results) ?? [],
-    [data],
-  );
-
-  const [selectedUserId, setSelectedUserId] = useState<string | undefined>(
-    "14",
-  );
-
-  useEffect(() => console.log(selectedUserId), []);
+  const handleOnSubmit = (data: FormValues) => {
+    console.log(data);
+  };
 
   return (
     <div>
       Hello "/dashboard"!
-      {/* <UserSelect /> */}
-      <EntitySelect
-        caption="Seleziona utente"
-        items={users}
-        isLoading={isLoading}
-        fetchNextPage={fetchNextPage}
-        hasNextPage={hasNextPage}
-        itemToString={(u) => `${u.nome} ${u.cognome}`}
-        itemToValue={(u) => u.id.toString()}
-        itemToDetail={(u) => `@${u.username}`}
-        value={selectedUserId}
-        onChange={(val) => {
-          setSelectedUserId(val.value[0].toString());
-          console.log(selectedUserId);
-        }}
-        onSearchChange={(searchText) => debouncedSearch(searchText)}
-      />
+      <form onSubmit={handleSubmit(handleOnSubmit)}>
+        <Controller
+          name="userId"
+          control={control}
+          render={({ field }) => (
+            <UserSelect value={field.value} onChange={field.onChange} />
+          )}
+        />
+
+        <Controller
+          name="saluto"
+          control={control}
+          render={({ field }) => (
+            <EntitySelect
+              caption="Selezione"
+              items={["ciao", "sei", "grande"]}
+              itemToString={(s) => s}
+              itemToValue={(s) => s}
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
+        />
+
+        <Button type="submit" mt={4}>
+          Salva
+        </Button>
+      </form>
     </div>
   );
 }
