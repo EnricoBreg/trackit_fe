@@ -29,8 +29,8 @@ interface EntitySelectProps<T> {
   itemToString: ItemToString<T>; // come viene mostrato il testo nel select
   itemToValue: ItemToValue<T>; // come viene identificato il valore
   itemToDetail?: ItemToDetail<T>; // come viene mostrato il valore nel dettaglio (opzionale)
-  value?: string; // valore selezionato, di tipo stringa, solitamente id della entity (opzionale)
-  onChange: (value: SelectValueChangeDetails) => void; // callback di selezione (opzionale)
+  value?: number | string; // valore selezionato, solitamente id (di tipo stringa) della entity (opzionale)
+  onChange: (value: number | string) => void; // callback di selezione (opzionale)
   onSearchChange?: (value: string) => void; // callback usata quando cambia il valore nella box di ricerca (opzionale)
   placeholder?: string; // placeholder che viene mostrato (opzionale)
 }
@@ -61,7 +61,7 @@ function EntitySelect<T>({
 
   const handleOnChange = (value: SelectValueChangeDetails) => {
     setInternalValue(value.value[0]);
-    onChange(value);
+    onChange(value.value[0]);
   };
 
   const handleOnSearchChange = (inputText: string) => {
@@ -79,7 +79,7 @@ function EntitySelect<T>({
       collection={collection}
       size="md"
       width="320px"
-      defaultValue={[value!!]}
+      defaultValue={[value?.toString()!!]}
       onValueChange={(val) => handleOnChange(val)}
     >
       <Select.HiddenSelect />
