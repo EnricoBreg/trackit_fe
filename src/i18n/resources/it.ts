@@ -5,6 +5,7 @@ const it = {
     messaggio: "Messaggio",
     elimina: "Elimina",
     ricercaPlaceholder: "Ricerca...",
+    selezionaUtente: "Utente",
     login: {
       welcomeToTrackIt: "Benvenuto in TrackIt. Effettua il login",
       username: "Nome utente",
