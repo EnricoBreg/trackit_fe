@@ -4,6 +4,7 @@ const en = {
     info_long: "Informations",
     messaggio: "Message",
     elimina: "Delete",
+    ricercaPlaceholder: "Search...",
     login: {
       welcomeToTrackIt: "Welcome to TrackIT. Sign in",
       username: "Username",

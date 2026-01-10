@@ -4,6 +4,7 @@ const it = {
     info_long: "Informazioni",
     messaggio: "Messaggio",
     elimina: "Elimina",
+    ricercaPlaceholder: "Ricerca...",
     login: {
       welcomeToTrackIt: "Benvenuto in TrackIt. Effettua il login",
       username: "Nome utente",

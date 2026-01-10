@@ -1,3 +1,4 @@
+import SearchInput from "@/components/SearchInput";
 import UsersSortSelector from "@/components/SortSelector";
 import UsersList from "@/components/UsersList";
 import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
@@ -36,6 +37,7 @@ function UsersPage() {
       </Heading>
       <HStack>
         <UsersSortSelector />
+        <SearchInput />
       </HStack>
       <UsersList />
     </VStack>

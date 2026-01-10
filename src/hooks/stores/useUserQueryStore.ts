@@ -20,7 +20,8 @@ interface UserQueryStore {
 const useUserQueryStore = create<UserQueryStore>((set) => ({
   userQuery: {},
 
-  setSearchText: (searchText) => set(() => ({ userQuery: { searchText } })),
+  setSearchText: (searchText) =>
+    set((store) => ({ userQuery: { ...store.userQuery, searchText } })),
 
   setActive: (active) =>
     set((store) => ({
@@ -29,7 +30,7 @@ const useUserQueryStore = create<UserQueryStore>((set) => ({
 
   setSortOrder: (sortOrder) =>
     set((store) => ({
-      userQuery: { ...store.userQuery, sortOrder, searchText: undefined },
+      userQuery: { ...store.userQuery, sortOrder },
     })),
 
   setPage: (page = 0) =>

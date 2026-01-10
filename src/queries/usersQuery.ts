@@ -13,8 +13,8 @@ const usersQueryOptions = (userQuery: UserQuery) =>
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
-          /* active: userQuery.active,
-          search: userQuery.searchText, */
+          /* active: userQuery.active, */
+          search: userQuery.searchText,
           sort: userQuery.sortOrder,
           page: pageParam,
         },
