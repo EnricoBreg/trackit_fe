@@ -13,7 +13,7 @@
 
 import Navbar from "@/components/Navbar";
 import useAuthStore from "@/hooks/stores/useAuthStore";
-import { Box } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app")({
@@ -37,9 +37,9 @@ function AppSecureLayout() {
   return (
     <Box>
       <Navbar />
-      <Box padding={5}>
+      <Container padding={5} fluid maxW={{ lg: "80%" }}>
         <Outlet />
-      </Box>
+      </Container>
     </Box>
   );
 }

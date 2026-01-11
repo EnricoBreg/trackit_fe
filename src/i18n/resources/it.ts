@@ -18,6 +18,11 @@ const it = {
       utenti: "Utenti",
       about: "About",
       effettuaIlLogin: "Clicca qui per effettuare il login",
+      progetti: "Progetti",
+    },
+    progetti: {
+      listaProgetti: "Lista progetti",
+      nuovoProgetto: "Nuovo Progetto",
     },
     not_found: {
       pageNotFound: "Pagina non trovata",

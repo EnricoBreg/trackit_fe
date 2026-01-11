@@ -34,6 +34,7 @@ const MainMenu = () => {
   const links: MainMenuLinkShape[] = [
     { to: "/app/dashboard", name: t("home") },
     { to: "/app/users", name: t("utenti") },
+    { to: "/app/projects", name: t("progetti") },
     { to: "/about", name: t("about") },
   ];
 
