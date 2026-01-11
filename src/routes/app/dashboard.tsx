@@ -43,9 +43,9 @@ function RouteComponent() {
           render={({ field }) => (
             <EntitySelect
               caption="Selezione"
-              items={["ciao", "sei", "grande"]}
-              itemToString={(s) => s}
-              itemToValue={(s) => s}
+              items={[...Array(50).keys()]}
+              itemToString={(s) => s.toString()}
+              itemToValue={(s) => s.toString()}
               value={field.value}
               onChange={field.onChange}
             />
