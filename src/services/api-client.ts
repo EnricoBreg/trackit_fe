@@ -3,7 +3,7 @@ import type { AxiosRequestConfig } from "axios";
 import { axiosInstance } from "@/api/axios";
 import type { FetchResponse } from "@/api/responses";
 
-class ApiClient<T> {
+class ApiClient<ENTITY_T> {
   endpoint: string;
 
   constructor(endpoint: string) {
@@ -12,13 +12,13 @@ class ApiClient<T> {
 
   getAll = (config: AxiosRequestConfig) => {
     return axiosInstance
-      .get<FetchResponse<T>>(this.endpoint, config)
+      .get<FetchResponse<ENTITY_T>>(this.endpoint, config)
       .then((res) => res.data);
   };
 
   get = (id: number | string) => {
     return axiosInstance
-      .get<T>(this.endpoint + "/" + id)
+      .get<ENTITY_T>(this.endpoint + "/" + id)
       .then((res) => res.data);
   };
 }
