@@ -1,18 +1,20 @@
-import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
 import useAppTranslation from "@/hooks/useTranslation";
 import { Input, InputGroup } from "@chakra-ui/react";
 import { useRef, type FormEvent } from "react";
 import { LuSearch } from "react-icons/lu";
 
-const SearchInput = () => {
+interface SearchInputProps {
+  searchText: string | number | undefined;
+  setSearchTextFn: (text: string) => void;
+}
+
+const SearchInput = ({ searchText, setSearchTextFn }: SearchInputProps) => {
   const { t } = useAppTranslation();
   const ref = useRef<HTMLInputElement>(null);
-  const setSearchText = useUserQueryStore((s) => s.setSearchText);
-  const searchText = useUserQueryStore((s) => s.userQuery.searchText);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (ref.current) setSearchText(ref.current.value);
+    if (ref.current) setSearchTextFn(ref.current.value);
   };
 
   return (
