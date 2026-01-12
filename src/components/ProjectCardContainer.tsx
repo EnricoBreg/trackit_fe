@@ -7,14 +7,7 @@ interface ProjectCardContainerProps {
 
 const ProjectCardContainer = ({ children }: ProjectCardContainerProps) => {
   return (
-    <Box
-      _hover={{
-        transform: "scale(1.03)",
-        transition: "transform .15s ease-in",
-      }}
-      borderRadius="md"
-      overflow="hidden"
-    >
+    <Box borderRadius="md" overflow="hidden">
       {children}
     </Box>
   );
