@@ -22,6 +22,9 @@ function UsersPage() {
   const { isLoading, error } = useUsers();
   const { t } = useAppTranslation();
 
+  const setSearchText = useUserQueryStore((s) => s.setSearchText);
+  const searchText = useUserQueryStore((s) => s.userQuery.searchText);
+
   if (isLoading)
     return (
       <VStack colorPalette="teal">
@@ -37,7 +40,7 @@ function UsersPage() {
       </Heading>
       <HStack>
         <UsersSortSelector />
-        <SearchInput />
+        <SearchInput setSearchTextFn={setSearchText} searchText={searchText} />
       </HStack>
       <UsersList />
     </VStack>
