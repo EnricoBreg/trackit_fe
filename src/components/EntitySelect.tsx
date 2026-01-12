@@ -1,3 +1,35 @@
+/**
+ * Lascio a titolo di documentazione un esempio di uso di questo componente
+ * con react-hook-form:
+ *
+ * const { control, handleSubmit } = useForm<FormValues>({
+ *   defaultValues: {
+ *     userId: "14",
+ *     saluto: "grande",
+ *   },
+ * });
+ *
+ * <Controller
+ *   name="saluto"
+ *   control={control}
+ *   render={({ field }) => (
+ *     <EntitySelect
+ *       caption="Selezione"
+ *       items={[...Array(50).keys()]}
+ *       itemToString={(s) => s.toString()}
+ *       itemToValue={(s) => s.toString()}
+ *       value={field.value}
+ *       onChange={field.onChange}
+ *     />
+ *   )}
+ *   />
+ *
+ * Tutte le implementazioni specifiche di questo componente, si usano alla stessa maniera.
+ * Solo che servirà appunto specificare meno campi.
+ *
+ * @author Enrico Bregoli
+ * @date 13/01/2026
+ */
 import useAppTranslation from "@/hooks/useTranslation";
 import {
   Box,
