@@ -44,14 +44,11 @@ export const authResponseInterceptor = async (error: any) => {
   isRefreshing = true;
 
   try {
+    const url = getBaseApiUrl() + "/auth/refresh";
     // bisogna usare una nuova istanza pulita di axios perché quella esistente ha già gli interceptor
     // collegati, di conseguenza si richierebbero loop infiniti <--- ATTENZIONE!
     const { accessToken: newAccessToken } = await axios
-      .post<LoginResponse>(
-        "https://127.0.0.1:8080/api/auth/refresh",
-        {},
-        { withCredentials: true },
-      )
+      .post<LoginResponse>(url, {}, { withCredentials: true })
       .then((res) => res.data);
 
     useAuthStore
@@ -80,4 +77,13 @@ const processQueue = (error: any, token: string | null = null) => {
   });
 
   failedQueue = [];
+};
+
+const getBaseApiUrl = () => {
+  const protocol = import.meta.env.VITE_BACKEND_PROTOCOL;
+  const ip = import.meta.env.VITE_BACKEND_SERVER_IP;
+  const port = import.meta.env.VITE_BACKEND_SERVER_PORT ?? "80";
+  const basePath = import.meta.env.VITE_BASE_PATH;
+
+  return `${protocol}://${ip}:${port}${basePath}`;
 };
