@@ -28,9 +28,9 @@ const LoginForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: authService.login,
     onSuccess: (data) => {
-      const { accessToken, user } = data;
+      const { accessToken, details } = data;
 
-      setAuth(accessToken, user);
+      setAuth(accessToken, details);
       router.navigate({ to: "/app" });
     },
     onError: () => {

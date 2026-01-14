@@ -56,7 +56,7 @@ export const authResponseInterceptor = async (error: any) => {
 
     useAuthStore
       .getState()
-      .setAuth(newAccessToken, useAuthStore.getState().user!);
+      .setAuth(newAccessToken, useAuthStore.getState().userDetails!);
 
     processQueue(null, newAccessToken);
 

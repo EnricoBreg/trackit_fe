@@ -6,3 +6,9 @@ export default interface User {
   username: string;
   email: string;
 }
+
+export default interface UserDetails {
+  user: User;
+  globalPermissions: string[];
+  projectPermissions: string[];
+}

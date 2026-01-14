@@ -1,4 +1,4 @@
-import type User from "@/entities/User";
+import type UserDetails from "@/entities/User";
 
 /* export type FetchResponse<T> = T[]; */
 
@@ -13,5 +13,5 @@ export interface FetchResponse<T> {
 
 export interface LoginResponse {
   accessToken: string;
-  user: User;
+  details: UserDetails;
 }

@@ -1,14 +1,14 @@
-import type User from "@/entities/User";
+import type UserDetails from "@/entities/User";
 import { AUTH_STORAGE_KEY } from "@/services/auth-service";
 import { create } from "zustand";
 
 interface AuthState {
   accessToken: string | null;
-  user: User | null;
+  userDetails: UserDetails | null;
   isAuthenticated: boolean;
   isBootstrapped: boolean;
 
-  setAuth: (accessToken: string, user: User) => void;
+  setAuth: (accessToken: string, user: UserDetails) => void;
   clearAuth: () => void;
   hydrate: () => void;
   setBootstrapped: () => void;
@@ -16,27 +16,27 @@ interface AuthState {
 
 const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
-  user: null,
+  userDetails: null,
   isAuthenticated: false,
   isBootstrapped: false,
 
-  setAuth: (accessToken: string, user: User) => {
+  setAuth: (accessToken: string, userDetails: UserDetails) => {
     set({
       accessToken,
-      user,
+      userDetails,
       isAuthenticated: true,
     });
 
     localStorage.setItem(
       AUTH_STORAGE_KEY,
-      JSON.stringify({ accessToken, user }),
+      JSON.stringify({ accessToken, userDetails })
     );
   },
 
   clearAuth: () => {
     (set({
       accessToken: null,
-      user: null,
+      userDetails: null,
       isAuthenticated: false,
     }),
       localStorage.removeItem(AUTH_STORAGE_KEY));
@@ -47,12 +47,12 @@ const useAuthStore = create<AuthState>((set, get) => ({
     if (!raw) return;
 
     try {
-      const { accessToken, user } = JSON.parse(raw);
+      const { accessToken, userDetails } = JSON.parse(raw);
 
       if (accessToken) {
         set({
           accessToken,
-          user,
+          userDetails,
           isAuthenticated: true,
         });
       }
