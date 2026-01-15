@@ -9,7 +9,7 @@ export const Route = createFileRoute("/login")({
   component: LoginPage,
   beforeLoad: ({ search }) => {
     const { isAuthenticated } = useAuthStore.getState();
-    console.log("isAuthenticated", isAuthenticated);
+
     if (isAuthenticated) {
       throw redirect({ to: search.redirect ?? "/app" });
     }
