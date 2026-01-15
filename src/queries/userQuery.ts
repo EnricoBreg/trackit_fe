@@ -1,4 +1,4 @@
-import type User from "@/entities/User";
+import type User from "@/domain/entities/User";
 import ApiClient from "@/services/api-client";
 import { queryOptions } from "@tanstack/react-query";
 

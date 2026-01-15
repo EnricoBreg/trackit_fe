@@ -1,7 +1,7 @@
 "use client";
 
 import NavLink from "@/components/NavLink";
-import type User from "@/entities/User";
+import type User from "@/domain/entities/User";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import useAppTranslation from "@/hooks/useTranslation";
 import authService from "@/services/auth-service";

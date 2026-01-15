@@ -1,4 +1,4 @@
-import type UserDetails from "@/entities/User";
+import type UserDetails from "@/domain/entities/User";
 
 /* export type FetchResponse<T> = T[]; */
 

@@ -1,6 +1,7 @@
 import GlobalPermissionGuard from "@/components/GlobalPermissionGuard";
 import ProjectGrid from "@/components/ProjectGrid";
 import SearchInput from "@/components/SearchInput";
+import { GlobalPermission } from "@/domain/global-permissions";
 import useProjectQueryStore from "@/hooks/stores/useProjectQueryStore";
 import useProjects from "@/hooks/useProjects";
 import useAppTranslation from "@/hooks/useTranslation";
@@ -35,7 +36,7 @@ function ProjectsIndexPage() {
         <Heading size={{ base: "2xl", md: "3xl", lg: "4xl" }}>
           {t("progetti.listaProgetti")}
         </Heading>
-        <GlobalPermissionGuard permission="USER_CREATE_PROJECT">
+        <GlobalPermissionGuard permission={GlobalPermission.PROJECT_CREATE.key}>
           <Button width="full" asChild>
             <Link to="/app/projects/new">
               <RiAddCircleLine />

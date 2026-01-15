@@ -1,4 +1,4 @@
-import type User from "@/entities/User";
+import type User from "@/domain/entities/User";
 import useAppTranslation from "@/hooks/useTranslation";
 import {
   Avatar,

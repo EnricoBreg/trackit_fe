@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/api/axios";
 import type { LoginRequest } from "@/api/requests";
 import type { LoginResponse } from "@/api/responses";
-import type User from "@/entities/User";
+import type User from "@/domain/entities/User";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import router from "@/router";
 

@@ -1,4 +1,4 @@
-import type Project from "@/entities/Project";
+import type Project from "@/domain/entities/Project";
 import { Badge, Box, Button, Card } from "@chakra-ui/react";
 
 interface ProjectCardProps {

@@ -1,8 +1,9 @@
+import { type GlobalPermissionKey } from "@/domain/global-permissions";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import type React from "react";
 
 interface PermissionGuardProps {
-  permission: string;
+  permission: GlobalPermissionKey;
   children: React.ReactNode;
 }
 

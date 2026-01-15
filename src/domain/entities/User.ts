@@ -1,3 +1,5 @@
+import type { GlobalPermissionKey } from "../global-permissions";
+
 export default interface User {
   id: number;
   nome: string;
@@ -9,6 +11,6 @@ export default interface User {
 
 export default interface UserDetails {
   user: User;
-  globalPermissions: string[];
+  globalPermissions: GlobalPermissionKey[];
   projectPermissions: string[];
 }

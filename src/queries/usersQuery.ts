@@ -1,5 +1,5 @@
 import type { FetchResponse } from "@/api/responses";
-import type User from "@/entities/User";
+import type User from "@/domain/entities/User";
 import type { UserQuery } from "@/hooks/stores/useUserQueryStore";
 import ApiClient from "@/services/api-client";
 import { infiniteQueryOptions } from "@tanstack/react-query";

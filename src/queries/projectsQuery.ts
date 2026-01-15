@@ -1,5 +1,5 @@
 import { type FetchResponse } from "@/api/responses";
-import type Project from "@/entities/Project";
+import type Project from "@/domain/entities/Project";
 import type { ProjectQuery } from "@/hooks/stores/useProjectQueryStore";
 import ApiClient from "@/services/api-client";
 import { infiniteQueryOptions } from "@tanstack/react-query";

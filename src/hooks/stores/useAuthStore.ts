@@ -1,4 +1,4 @@
-import type UserDetails from "@/entities/User";
+import type UserDetails from "@/domain/entities/User";
 import { AUTH_STORAGE_KEY } from "@/services/auth-service";
 import { create } from "zustand";
 
@@ -29,7 +29,7 @@ const useAuthStore = create<AuthState>((set, get) => ({
 
     localStorage.setItem(
       AUTH_STORAGE_KEY,
-      JSON.stringify({ accessToken, userDetails })
+      JSON.stringify({ accessToken, userDetails }),
     );
   },
 
