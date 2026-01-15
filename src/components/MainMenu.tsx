@@ -42,7 +42,7 @@ const MainMenu = () => {
 
   const [open, setOpen] = useState(false);
 
-  const user = useAuthStore((s) => s.userDetails) as User | null;
+  const user = useAuthStore((s) => s.userDetails?.user) as User;
 
   let nominativo = "";
   if (user) {
