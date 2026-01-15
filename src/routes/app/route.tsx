@@ -17,14 +17,14 @@ import { Box, Container } from "@chakra-ui/react";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app")({
-  beforeLoad: () => {
+  beforeLoad: ({ location }) => {
     const { isAuthenticated } = useAuthStore.getState();
 
     if (!isAuthenticated) {
       throw redirect({
         to: "/login",
         search: {
-          redirect: location.pathname,
+          redirect: location.href,
         },
       });
     }

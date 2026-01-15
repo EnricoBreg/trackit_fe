@@ -13,7 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import Image from "./Image";
 import { PasswordInput } from "./ui/password-input";
@@ -24,6 +24,7 @@ const LoginForm = () => {
 
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();
+  const { redirect } = useSearch({ from: "/login" });
 
   const { mutate, isPending } = useMutation({
     mutationFn: authService.login,
@@ -31,7 +32,7 @@ const LoginForm = () => {
       const { accessToken, details } = data;
 
       setAuth(accessToken, details);
-      router.navigate({ to: "/app" });
+      router.navigate({ to: redirect ?? "/app" });
     },
     onError: () => {
       console.log("Login failed");

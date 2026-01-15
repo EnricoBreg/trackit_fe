@@ -22,7 +22,7 @@ class AuthService {
 
   logout = () => {
     useAuthStore.getState().clearAuth();
-    router.navigate({ to: AUTH_LOGIN_ROUTE });
+    router.navigate({ to: AUTH_LOGIN_ROUTE, search: { redirect: undefined } });
   };
 
   refresh = () => {
