@@ -1,3 +1,4 @@
+import GlobalPermissionGuard from "@/components/GlobalPermissionGuard";
 import ProjectGrid from "@/components/ProjectGrid";
 import SearchInput from "@/components/SearchInput";
 import useProjectQueryStore from "@/hooks/stores/useProjectQueryStore";
@@ -34,12 +35,14 @@ function ProjectsIndexPage() {
         <Heading size={{ base: "2xl", md: "3xl", lg: "4xl" }}>
           {t("progetti.listaProgetti")}
         </Heading>
-        <Button width="full" asChild>
-          <Link to="/app/projects/new">
-            <RiAddCircleLine />
-            {t("nuovoProgetto")}
-          </Link>
-        </Button>
+        <GlobalPermissionGuard permission="USER_CREATE_PROJECT">
+          <Button width="full" asChild>
+            <Link to="/app/projects/new">
+              <RiAddCircleLine />
+              {t("nuovoProgetto")}
+            </Link>
+          </Button>
+        </GlobalPermissionGuard>
       </VStack>
 
       <Box>
