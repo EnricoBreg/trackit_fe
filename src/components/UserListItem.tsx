@@ -25,7 +25,7 @@ const UserListItem = ({ user }: Props) => {
   const { t } = useAppTranslation();
 
   return (
-    <Card.Root flexDirection="row" width={{ base: "sm", md: "lg", xl: "2xl" }}>
+    <Card.Root flexDirection="row" width="full">
       <Card.Body spaceX={20}>
         <HStack>
           <Avatar.Root>

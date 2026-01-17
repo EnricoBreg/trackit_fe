@@ -1,5 +1,5 @@
 import useUsers from "@/hooks/useUsers";
-import { Spinner, Text, VStack } from "@chakra-ui/react";
+import { Container, Spinner, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UserListItem from "./UserListItem";
@@ -28,15 +28,17 @@ const UsersList = () => {
     >
       {isLoading && <Spinner />}
 
-      <VStack spaceY={4}>
-        {data?.pages.map((page, index) => (
-          <React.Fragment key={index}>
-            {page.results.map((user) => (
-              <UserListItem key={user.id} user={user} />
-            ))}
-          </React.Fragment>
-        ))}
-      </VStack>
+      <Container width={{ base: "sm", md: "2xl", xl: "4xl" }}>
+        <VStack spaceY={4}>
+          {data?.pages.map((page, index) => (
+            <React.Fragment key={index}>
+              {page.results.map((user) => (
+                <UserListItem key={user.id} user={user} />
+              ))}
+            </React.Fragment>
+          ))}
+        </VStack>
+      </Container>
     </InfiniteScroll>
   );
 };
