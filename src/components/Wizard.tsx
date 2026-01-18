@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Box,
   Button,
   ButtonGroup,
   Steps,
@@ -13,10 +15,11 @@ import {
   type FieldValues,
   type Path,
   type Resolver,
+  type UseFormReturn,
 } from "react-hook-form";
 import { FaCheck, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
-interface WizardStep<TFormValues extends FieldValues> {
+export interface WizardStep<TFormValues extends FieldValues> {
   title?: string | undefined;
   component: React.ComponentType;
   validationFields: Path<TFormValues>[];
@@ -33,7 +36,13 @@ interface WizardProps<TFormValues extends FieldValues> {
   submitButtonCaption?: React.ReactNode;
   submitButtonProps?: ButtonProps;
   buttonsAlignment?: "start" | "center" | "end";
-  onSubmit: (data: TFormValues) => void;
+  onSubmit: (
+    data: TFormValues,
+    helpers: {
+      methods: UseFormReturn<TFormValues>;
+      stepsApi: ReturnType<typeof useSteps>;
+    },
+  ) => Promise<void> | void;
 }
 
 export function Wizard<TFormValues extends FieldValues>({
@@ -53,6 +62,10 @@ export function Wizard<TFormValues extends FieldValues>({
     mode: "onTouched",
     resolver,
   });
+
+  const {
+    formState: { errors },
+  } = methods;
 
   const stepsApi = useSteps({
     defaultStep: 0,
@@ -76,7 +89,21 @@ export function Wizard<TFormValues extends FieldValues>({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={methods.handleSubmit((data) =>
+          onSubmit(data, { methods, stepsApi }),
+        )}
+      >
+        {errors.root && (
+          <Box marginBottom={4}>
+            <Alert.Root status="error">
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title>{errors.root.message}</Alert.Title>
+              </Alert.Content>
+            </Alert.Root>
+          </Box>
+        )}
         <Steps.RootProvider value={stepsApi}>
           <Steps.List>
             {steps.map((step, index) => (
