@@ -59,8 +59,14 @@ export function Wizard<TFormValues extends FieldValues>({
     count: steps.length,
   });
 
-  const handleNext = async () => {
-    const currentStep = stepsApi.value;
+  const handleNext = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    // per prevenire un invio involontario del form prima
+    // dell'effettivo invio con pulsante dedicato
+    event.preventDefault();
+
+    let currentStep = stepsApi.value;
     const fieldsToValidate = steps[currentStep].validationFields;
 
     const isValid = await methods.trigger(fieldsToValidate);
@@ -100,13 +106,17 @@ export function Wizard<TFormValues extends FieldValues>({
             justifyContent={buttonsAlignment}
           >
             <Steps.PrevTrigger asChild>
-              <Button {...prevButtonProps}>
+              <Button type="button" {...prevButtonProps}>
                 <FaChevronLeft />
                 {prevButtonCaption}
               </Button>
             </Steps.PrevTrigger>
             {stepsApi.hasNextStep ? (
-              <Button onClick={handleNext} {...nextButtonProps}>
+              <Button
+                type="button"
+                onClick={(e) => handleNext(e)}
+                {...nextButtonProps}
+              >
                 {nextButtonCaption}
                 <FaChevronRight />
               </Button>
