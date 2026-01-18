@@ -40,7 +40,7 @@ function ProjectsIndexPage() {
           <Button width="full" asChild>
             <Link to="/app/projects/new">
               <RiAddCircleLine />
-              {t("nuovoProgetto")}
+              {t("progetti.nuovoProgetto")}
             </Link>
           </Button>
         </GlobalPermissionGuard>
