@@ -1,12 +1,22 @@
+import GlobalPermissionGuard from "@/components/GlobalPermissionGuard";
 import SearchInput from "@/components/SearchInput";
 import UsersSortSelector from "@/components/SortSelector";
 import UsersList from "@/components/UsersList";
+import { GlobalPermission } from "@/domain/global-permissions";
 import useUserQueryStore from "@/hooks/stores/useUserQueryStore";
 import useAppTranslation from "@/hooks/useTranslation";
 import useUsers from "@/hooks/useUsers";
 import usersQueryOptions from "@/queries/usersQuery";
-import { Heading, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+  Button,
+  Heading,
+  HStack,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { RiAddCircleLine } from "react-icons/ri";
 
 export const Route = createFileRoute("/app/users/")({
   component: UsersPage,
@@ -41,6 +51,14 @@ function UsersPage() {
       <HStack>
         <UsersSortSelector />
         <SearchInput setSearchTextFn={setSearchText} searchText={searchText} />
+        <GlobalPermissionGuard permission={GlobalPermission.USER_CREATE.key}>
+          <Button asChild>
+            <Link to="/app/users/new">
+              <RiAddCircleLine />
+              {t("utenti.nuovo")}
+            </Link>
+          </Button>
+        </GlobalPermissionGuard>
       </HStack>
       <UsersList />
     </VStack>

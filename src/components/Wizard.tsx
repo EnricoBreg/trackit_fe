@@ -6,16 +6,23 @@ import {
   type ButtonProps,
 } from "@chakra-ui/react";
 import React from "react";
+import {
+  FormProvider,
+  useForm,
+  type FieldValues,
+  type Path,
+  type Resolver,
+} from "react-hook-form";
 
-import { FormProvider, useForm, type FieldValues } from "react-hook-form";
-
-interface WizardStep {
+interface WizardStep<TFormValues extends FieldValues> {
   title?: string | undefined;
   component: React.ComponentType;
+  fields: Path<TFormValues>[];
 }
 
 interface WizardProps<TFormValues extends FieldValues> {
-  steps: WizardStep[];
+  steps: WizardStep<TFormValues>[];
+  resolver: Resolver<TFormValues>;
   completedContentText?: string | undefined;
   prevButtonCaption?: React.ReactNode;
   prevButtonProps?: ButtonProps;
@@ -26,6 +33,7 @@ interface WizardProps<TFormValues extends FieldValues> {
 
 export function Wizard<TFormValues extends FieldValues>({
   steps,
+  resolver,
   completedContentText,
   prevButtonCaption = "Prev",
   prevButtonProps,
@@ -35,12 +43,22 @@ export function Wizard<TFormValues extends FieldValues>({
 }: WizardProps<TFormValues>) {
   const methods = useForm<TFormValues>({
     mode: "onTouched",
+    resolver,
   });
 
   const stepsApi = useSteps({
     defaultStep: 0,
     count: steps.length,
   });
+
+  const handleNext = async () => {
+    const currentStep = stepsApi.value;
+    const fieldsToValidate = steps[currentStep].fields;
+
+    const isValid = await methods.trigger(fieldsToValidate);
+
+    if (isValid) stepsApi.goToNextStep();
+  };
 
   return (
     <FormProvider {...methods}>
@@ -72,9 +90,9 @@ export function Wizard<TFormValues extends FieldValues>({
               <Button {...prevButtonProps}>{prevButtonCaption}</Button>
             </Steps.PrevTrigger>
             {stepsApi.hasNextStep ? (
-              <Steps.NextTrigger asChild>
-                <Button {...nextButtonProps}>{nextButtonCaption}</Button>
-              </Steps.NextTrigger>
+              <Button onClick={handleNext} {...nextButtonProps}>
+                {nextButtonCaption}
+              </Button>
             ) : (
               <Button type="submit" variant="solid">
                 Submit

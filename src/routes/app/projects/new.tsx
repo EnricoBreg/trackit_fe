@@ -1,6 +1,5 @@
 import GenericHeading from "@/components/GenericHeading";
 import UserSelect from "@/components/UserSelect";
-import Wizard from "@/components/Wizard";
 import useAppTranslation from "@/hooks/useTranslation";
 import { Box, Field, Input } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
@@ -58,7 +57,7 @@ function NewProjectPage() {
     <Box spaceY={4}>
       <GenericHeading>{t("progetti.nuovoProgetto")}</GenericHeading>
 
-      <div>
+      {/* <div>
         <Wizard<NewProjectForm>
           steps={[
             { title: "Project title", component: ProjectInfoStep },
@@ -67,7 +66,7 @@ function NewProjectPage() {
           onSubmit={(data) => console.log(data)}
           completedContentText="Confermare la creazione del progetto?"
         />
-      </div>
+      </div> */}
     </Box>
   );
 }
