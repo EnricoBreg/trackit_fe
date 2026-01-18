@@ -1,20 +1,36 @@
 import GenericHeading from "@/components/GenericHeading";
 import { PasswordInput } from "@/components/ui/password-input";
 import Wizard from "@/components/Wizard";
+import type User from "@/domain/entities/User";
 import { createUserSchema } from "@/domain/features/users/user-wizard.schema";
 import type { CreateUserForm } from "@/domain/features/users/user-wizard.types";
 import useAppTranslation from "@/hooks/useTranslation";
+import ApiClient from "@/services/api-client";
 import { Box, Field, GridItem, Input, SimpleGrid } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useFormContext } from "react-hook-form";
 
 export const Route = createFileRoute("/app/users/new")({
   component: RouteComponent,
 });
 
+const apiClient = new ApiClient<User>("/users");
+
 function RouteComponent() {
   const { t } = useAppTranslation();
+  const router = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: apiClient.post,
+
+    onSuccess: () => router.navigate({ to: "/app/users" }),
+
+    onError: (err) => console.error("Error", err),
+  });
+
+  const onSubmit = (formValues: CreateUserForm) => mutate(formValues);
 
   return (
     <Box spaceY={4}>
@@ -35,7 +51,7 @@ function RouteComponent() {
             },
           ]}
           resolver={zodResolver(createUserSchema)}
-          onSubmit={(data) => console.log("Submit finale", data)}
+          onSubmit={onSubmit}
           completedContentText={t("utenti.confermaCreazione")}
         />
       </div>
