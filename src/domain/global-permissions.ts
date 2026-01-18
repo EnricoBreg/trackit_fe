@@ -1,5 +1,17 @@
 export const GlobalPermission = {
   // Users
+  USER_CREATE: {
+    key: "USER_CREATE",
+    description: "Creazione nuovo utente del sistema",
+  },
+  USER_EDIT: {
+    key: "USER_EDIT",
+    description: "Modificare informazioni profilo utente del sistema",
+  },
+  USER_DELETE: {
+    key: "USER_DELETE",
+    description: "Eliminazione utente del sistema",
+  },
   USER_RESET_PASSWORD: {
     key: "USER_RESET_PASSWORD",
     description: "Possibilità di resettare la password",
