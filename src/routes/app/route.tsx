@@ -37,7 +37,7 @@ function AppSecureLayout() {
   return (
     <Box>
       <Navbar />
-      <Container padding={5} fluid maxW={{ lg: "80%" }}>
+      <Container padding={5} maxW={{ base: "full", md: "2xl", lg: "8xl" }}>
         <Outlet />
       </Container>
     </Box>
