@@ -5,6 +5,7 @@ import {
   useSteps,
   type ButtonProps,
 } from "@chakra-ui/react";
+import { t } from "i18next";
 import React from "react";
 import {
   FormProvider,
@@ -13,11 +14,12 @@ import {
   type Path,
   type Resolver,
 } from "react-hook-form";
+import { FaCheck, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 interface WizardStep<TFormValues extends FieldValues> {
   title?: string | undefined;
   component: React.ComponentType;
-  fields: Path<TFormValues>[];
+  validationFields: Path<TFormValues>[];
 }
 
 interface WizardProps<TFormValues extends FieldValues> {
@@ -28,6 +30,8 @@ interface WizardProps<TFormValues extends FieldValues> {
   prevButtonProps?: ButtonProps;
   nextButtonCaption?: React.ReactNode;
   nextButtonProps?: ButtonProps;
+  submitButtonCaption?: React.ReactNode;
+  submitButtonProps?: ButtonProps;
   onSubmit: (data: TFormValues) => void;
 }
 
@@ -35,10 +39,12 @@ export function Wizard<TFormValues extends FieldValues>({
   steps,
   resolver,
   completedContentText,
-  prevButtonCaption = "Prev",
+  prevButtonCaption = t("precedente"),
   prevButtonProps,
-  nextButtonCaption = "Next",
+  nextButtonCaption = t("successivo"),
   nextButtonProps,
+  submitButtonProps,
+  submitButtonCaption = t("submit"),
   onSubmit,
 }: WizardProps<TFormValues>) {
   const methods = useForm<TFormValues>({
@@ -53,7 +59,7 @@ export function Wizard<TFormValues extends FieldValues>({
 
   const handleNext = async () => {
     const currentStep = stepsApi.value;
-    const fieldsToValidate = steps[currentStep].fields;
+    const fieldsToValidate = steps[currentStep].validationFields;
 
     const isValid = await methods.trigger(fieldsToValidate);
 
@@ -87,15 +93,20 @@ export function Wizard<TFormValues extends FieldValues>({
           </Steps.CompletedContent>
           <ButtonGroup size="sm" variant="outline">
             <Steps.PrevTrigger asChild>
-              <Button {...prevButtonProps}>{prevButtonCaption}</Button>
+              <Button {...prevButtonProps}>
+                <FaChevronLeft />
+                {prevButtonCaption}
+              </Button>
             </Steps.PrevTrigger>
             {stepsApi.hasNextStep ? (
               <Button onClick={handleNext} {...nextButtonProps}>
                 {nextButtonCaption}
+                <FaChevronRight />
               </Button>
             ) : (
-              <Button type="submit" variant="solid">
-                Submit
+              <Button type="submit" variant="solid" {...submitButtonProps}>
+                {submitButtonCaption}
+                <FaCheck />
               </Button>
             )}
           </ButtonGroup>
