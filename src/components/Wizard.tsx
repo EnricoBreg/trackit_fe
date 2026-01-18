@@ -32,6 +32,7 @@ interface WizardProps<TFormValues extends FieldValues> {
   nextButtonProps?: ButtonProps;
   submitButtonCaption?: React.ReactNode;
   submitButtonProps?: ButtonProps;
+  buttonsAlignment: "start" | "center" | "end";
   onSubmit: (data: TFormValues) => void;
 }
 
@@ -45,6 +46,7 @@ export function Wizard<TFormValues extends FieldValues>({
   nextButtonProps,
   submitButtonProps,
   submitButtonCaption = t("submit"),
+  buttonsAlignment = "start",
   onSubmit,
 }: WizardProps<TFormValues>) {
   const methods = useForm<TFormValues>({
@@ -91,7 +93,12 @@ export function Wizard<TFormValues extends FieldValues>({
           <Steps.CompletedContent>
             {completedContentText}
           </Steps.CompletedContent>
-          <ButtonGroup size="sm" variant="outline">
+
+          <ButtonGroup
+            size="sm"
+            variant="outline"
+            justifyContent={buttonsAlignment}
+          >
             <Steps.PrevTrigger asChild>
               <Button {...prevButtonProps}>
                 <FaChevronLeft />
