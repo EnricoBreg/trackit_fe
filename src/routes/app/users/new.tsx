@@ -7,7 +7,6 @@ import useAppTranslation from "@/hooks/useTranslation";
 import { Box, Field, GridItem, Input, SimpleGrid } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 export const Route = createFileRoute("/app/users/new")({
@@ -27,12 +26,12 @@ function RouteComponent() {
             {
               title: t("utenti.infoUtenteStep"),
               component: UserInfoStep,
-              fields: ["username", "email"],
+              validationFields: ["nome", "cognome", "username", "email"],
             },
             {
               title: t("utenti.passwordStep"),
               component: UserPasswordStep,
-              fields: ["password"],
+              validationFields: ["password", "confirmPassword"],
             },
           ]}
           resolver={zodResolver(createUserSchema)}
@@ -54,8 +53,30 @@ function UserInfoStep() {
   return (
     <SimpleGrid gap={4} columns={{ base: 1, md: 2 }}>
       <GridItem>
-        <Field.Root invalid={!!errors.username}>
-          <Field.Label>{t("utenti.username")}</Field.Label>
+        <Field.Root>
+          <Field.Label>{t("utenti.nome")}</Field.Label>
+          <Input
+            placeholder={t("utenti.nomePlaceholder")}
+            {...register("nome")}
+          />
+        </Field.Root>
+      </GridItem>
+
+      <GridItem>
+        <Field.Root>
+          <Field.Label>{t("utenti.cognome")}</Field.Label>
+          <Input
+            placeholder={t("utenti.cognomePlaceholder")}
+            {...register("cognome")}
+          />
+        </Field.Root>
+      </GridItem>
+
+      <GridItem>
+        <Field.Root invalid={!!errors.username} required>
+          <Field.Label>
+            {t("utenti.username")} <Field.RequiredIndicator />
+          </Field.Label>
           <Input
             placeholder={t("utenti.usernamePlaceholder")}
             {...register("username")}
@@ -64,9 +85,12 @@ function UserInfoStep() {
           <Field.ErrorText>{errors.username?.message}</Field.ErrorText>
         </Field.Root>
       </GridItem>
+
       <GridItem>
-        <Field.Root invalid={!!errors.email}>
-          <Field.Label>{t("utenti.email")}</Field.Label>
+        <Field.Root invalid={!!errors.email} required>
+          <Field.Label>
+            {t("utenti.email")} <Field.RequiredIndicator />
+          </Field.Label>
           <Input
             placeholder={t("utenti.emailPlaceholder")}
             {...register("email")}
@@ -84,19 +108,14 @@ function UserPasswordStep() {
     register,
     formState: { errors },
   } = useFormContext<CreateUserForm>();
-  const [equalPassword, setEqualPassword] = useState(true);
-  const password = useRef<HTMLInputElement>(null);
-  const repeatPassword = useRef<HTMLInputElement>(null);
-
-  const checkPassword = () => {
-    setEqualPassword(password.current?.value === repeatPassword.current?.value);
-  };
 
   return (
     <SimpleGrid gap={4} columns={{ base: 1, md: 2 }}>
       <Box>
-        <Field.Root invalid={!!errors.password}>
-          <Field.Label>{t("utenti.password")}</Field.Label>
+        <Field.Root invalid={!!errors.password} required>
+          <Field.Label>
+            {t("utenti.password")} <Field.RequiredIndicator />
+          </Field.Label>
           <PasswordInput
             /* {...register("password")} */
             type="password"
@@ -106,13 +125,10 @@ function UserPasswordStep() {
         </Field.Root>
       </Box>
       <Box>
-        <Field.Root invalid={!equalPassword}>
+        <Field.Root invalid={!!errors.confirmPassword}>
           <Field.Label>{t("utenti.passwordRipeti")}</Field.Label>
-          <PasswordInput
-            /* {...register("password")} */
-            type="password"
-          />
-          <Field.ErrorText>{t("utenti.passwordDiverse")}</Field.ErrorText>
+          <PasswordInput {...register("confirmPassword")} type="password" />
+          <Field.ErrorText>{errors.confirmPassword?.message}</Field.ErrorText>
         </Field.Root>
       </Box>
     </SimpleGrid>
