@@ -32,7 +32,7 @@ interface WizardProps<TFormValues extends FieldValues> {
   nextButtonProps?: ButtonProps;
   submitButtonCaption?: React.ReactNode;
   submitButtonProps?: ButtonProps;
-  buttonsAlignment: "start" | "center" | "end";
+  buttonsAlignment?: "start" | "center" | "end";
   onSubmit: (data: TFormValues) => void;
 }
 
