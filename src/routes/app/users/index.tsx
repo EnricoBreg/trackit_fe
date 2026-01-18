@@ -8,10 +8,11 @@ import useAppTranslation from "@/hooks/useTranslation";
 import useUsers from "@/hooks/useUsers";
 import usersQueryOptions from "@/queries/usersQuery";
 import {
+  Box,
   Button,
   Heading,
-  HStack,
   Spinner,
+  Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -48,9 +49,20 @@ function UsersPage() {
       <Heading as="h3" fontSize={{ base: "2xl", xl: "4xl" }} fontWeight="bold">
         {t("Utenti")}
       </Heading>
-      <HStack>
-        <UsersSortSelector />
-        <SearchInput setSearchTextFn={setSearchText} searchText={searchText} />
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        width="full"
+        justifyContent="space-between"
+      >
+        <Stack direction={{ base: "column", md: "row" }} flex={1} gap={2}>
+          <Box flex={1}>
+            <SearchInput
+              setSearchTextFn={setSearchText}
+              searchText={searchText}
+            />
+          </Box>
+          <UsersSortSelector />
+        </Stack>
         <GlobalPermissionGuard permission={GlobalPermission.USER_CREATE.key}>
           <Button asChild>
             <Link to="/app/users/new">
@@ -59,8 +71,10 @@ function UsersPage() {
             </Link>
           </Button>
         </GlobalPermissionGuard>
-      </HStack>
-      <UsersList />
+      </Stack>
+      <Box width="full">
+        <UsersList />
+      </Box>
     </VStack>
   );
 }
