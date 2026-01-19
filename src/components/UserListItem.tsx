@@ -24,17 +24,28 @@ interface Props {
 const UserListItem = ({ user }: Props) => {
   const { t } = useAppTranslation();
 
+  let nominativo = "";
+  if (user.nome && user.cognome) {
+    nominativo = user.nome + " " + user.cognome;
+  } else if (user.nome) {
+    nominativo = `${user.nome} (${user.username})`;
+  } else if (user.cognome) {
+    nominativo = `${user.nome} (${user.username})`;
+  } else {
+    nominativo = user.username;
+  }
+
   return (
     <Card.Root flexDirection="row" width="full">
       <Card.Body spaceX={20}>
         <HStack>
           <Avatar.Root>
             <Avatar.Image />
-            <Avatar.Fallback name={user.nome + " " + user.cognome} />
+            <Avatar.Fallback name={nominativo} />
           </Avatar.Root>
           <Stack gap="0">
             <Text fontWeight="semibold" textStyle="sm">
-              {user.nome + " " + user.cognome}
+              {nominativo}
             </Text>
             <Text color="fg.muted" textStyle="sm">
               @{user.username}

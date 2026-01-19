@@ -30,12 +30,23 @@ function RouteComponent() {
 
   if (error || !user) throw error;
 
+  let nominativo = "";
+  if (user.nome && user.cognome) {
+    nominativo = user.nome + " " + user.cognome;
+  } else if (user.nome) {
+    nominativo = `${user.nome} (${user.username})`;
+  } else if (user.cognome) {
+    nominativo = `${user.nome} (${user.username})`;
+  } else {
+    nominativo = user.username;
+  }
+
   return (
     <Grid templateColumns={"repeat(3, 1fr)"} gap={4}>
       <GridItem>
         <Flex justifyContent="center" alignItems="center">
           <Avatar.Root size={"2xl"} variant={"solid"}>
-            <Avatar.Fallback name={user.nome + " " + user.cognome} />
+            <Avatar.Fallback name={nominativo} />
             <Avatar.Image />
           </Avatar.Root>
         </Flex>
@@ -48,7 +59,7 @@ function RouteComponent() {
               fontSize={{ base: "2xl", md: "4xl" }}
               fontWeight="bold"
             >
-              {user.nome + " " + user.cognome}
+              {nominativo}
             </Heading>
             <Text fontSize="xl" color="gray.400">
               @{user.username}
