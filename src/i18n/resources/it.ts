@@ -1,5 +1,6 @@
 const it = {
   translation: {
+    annulla: "Annulla",
     precedente: "Indietro",
     submit: "Invia",
     successivo: "Avanti",
@@ -9,6 +10,8 @@ const it = {
     elimina: "Elimina",
     ricercaPlaceholder: "Ricerca...",
     selezionaUtente: "Utente",
+    seiSicuro: "Sei sicuro?",
+    nonCorrisponde: "Non corrisponde",
     login: {
       welcomeToTrackIt: "Benvenuto in TrackIt. Effettua il login",
       username: "Nome utente",
@@ -43,6 +46,8 @@ const it = {
       passwordRipeti: "Ripeti password",
       passwordStep: "Imposta password",
       confermaCreazione: "Confermi la creazione del nuovo utente?",
+      eliminaUtenteMessaggio:
+        "Questa azione è irreversibile. Questo porterà alla eliminazione dell'account <bold>{{nominativo}}</bold> e rimuoverà tutti i dati dal sistema. Digita <badge>trackit/@{{username}}</badge> per confermare l'eliminazione.",
     },
     progetti: {
       listaProgetti: "Lista progetti",

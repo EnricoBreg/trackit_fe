@@ -28,6 +28,12 @@ class ApiClient<ENTITY_T> {
       .post<ENTITY_T>(this.endpoint, data)
       .then((res) => res.data);
   };
+
+  delete = (data: string | number) => {
+    return axiosInstance
+      .delete<ENTITY_T>(this.endpoint + "/" + data)
+      .then((res) => res.data);
+  };
 }
 
 export default ApiClient;

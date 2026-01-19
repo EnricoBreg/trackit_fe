@@ -2,10 +2,8 @@ import type User from "@/domain/entities/User";
 import useAppTranslation from "@/hooks/useTranslation";
 import {
   Avatar,
-  Box,
   Button,
   Card,
-  Link as ChakraLink,
   HStack,
   Menu,
   Portal,
@@ -14,8 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaRegMessage, FaRegTrashCan } from "react-icons/fa6";
+import { FaRegMessage } from "react-icons/fa6";
 import { LuInfo } from "react-icons/lu";
+import DeleteUserDialog from "./DeleteUserDialog";
 
 interface Props {
   user: User;
@@ -64,31 +63,26 @@ const UserListItem = ({ user }: Props) => {
             <Menu.Positioner>
               <Menu.Content>
                 <Menu.Item value="messaggio">
-                  <FaRegMessage />
-                  <Box flex="1">{t("messaggio")}</Box>
+                  <Button variant="plain" size="sm">
+                    <FaRegMessage />
+                    {t("messaggio")}
+                  </Button>
                 </Menu.Item>
 
-                <Menu.Item value="informazioni" focusVisibleRing="none">
-                  <Box flex="1">
-                    <ChakraLink asChild>
-                      <Link
-                        to="/app/users/$userId"
-                        params={{ userId: user.id.toString() }}
-                      >
-                        <LuInfo />
-                        {t("info_long")}
-                      </Link>
-                    </ChakraLink>
-                  </Box>
+                <Menu.Item value="informazioni">
+                  <Button variant="plain" size="sm" asChild>
+                    <Link
+                      to="/app/users/$userId"
+                      params={{ userId: user.id.toString() }}
+                    >
+                      <LuInfo />
+                      {t("info_long")}
+                    </Link>
+                  </Button>
                 </Menu.Item>
 
-                <Menu.Item
-                  value="elimina"
-                  color="fg.error"
-                  _hover={{ bg: "bg.error", color: "fg.error" }}
-                >
-                  <FaRegTrashCan />
-                  <Box flex="1">{t("elimina")}</Box>
+                <Menu.Item value="elimina" asChild>
+                  <DeleteUserDialog user={user} />
                 </Menu.Item>
               </Menu.Content>
             </Menu.Positioner>

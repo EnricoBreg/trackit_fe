@@ -3,7 +3,6 @@ import type User from "@/domain/entities/User";
 import type { UserQuery } from "@/hooks/stores/useUserQueryStore";
 import ApiClient from "@/services/api-client";
 import { infiniteQueryOptions } from "@tanstack/react-query";
-import ms from "ms";
 
 const apiClient = new ApiClient<User>("/users");
 
@@ -19,7 +18,6 @@ const usersQueryOptions = (userQuery: UserQuery) =>
           page: pageParam,
         },
       }),
-    staleTime: ms("24h"),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.hasNext ? lastPage.currentPage + 1 : undefined;

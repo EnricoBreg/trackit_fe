@@ -1,5 +1,6 @@
 const en = {
   translation: {
+    annulla: "Cancel",
     precedente: "Prev",
     submit: "Submit",
     successivo: "Next",
@@ -9,6 +10,8 @@ const en = {
     elimina: "Delete",
     ricercaPlaceholder: "Search...",
     selezionaUtente: "Utente",
+    seiSicuro: "Are you sure?",
+    nonCorrisponde: "Doesn't match",
     login: {
       welcomeToTrackIt: "Welcome to TrackIT. Sign in",
       username: "Username",
@@ -43,6 +46,8 @@ const en = {
       passwordRipeti: "Repeat password",
       passwordStep: "Set user password",
       confermaCreazione: "Do you confirm to add new user?",
+      eliminaUtenteMessaggio:
+        "This action cannot be undone. This will permanently delete the <bold>{{nominativo}}</bold> account and remove data from the systems. Type <badge>trackit/@{{username}}</badge> to confirm del deletion.",
     },
     progetti: {
       listaProgetti: "Projects list",
