@@ -1,4 +1,5 @@
 import type User from "@/domain/entities/User";
+import { GlobalPermission } from "@/domain/global-permissions";
 import useAppTranslation from "@/hooks/useTranslation";
 import {
   Avatar,
@@ -12,9 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaRegMessage } from "react-icons/fa6";
+import { FaRegEdit } from "react-icons/fa";
 import { LuInfo } from "react-icons/lu";
 import DeleteUserDialog from "./DeleteUserDialog";
+import GlobalPermissionGuard from "./GlobalPermissionGuard";
 
 interface Props {
   user: User;
@@ -62,14 +64,14 @@ const UserListItem = ({ user }: Props) => {
           <Portal>
             <Menu.Positioner>
               <Menu.Content>
-                <Menu.Item value="messaggio">
+                {/* <Menu.Item value="messaggio" justifyContent="center">
                   <Button variant="plain" size="sm">
                     <FaRegMessage />
                     {t("messaggio")}
                   </Button>
-                </Menu.Item>
+                </Menu.Item> */}
 
-                <Menu.Item value="informazioni">
+                <Menu.Item value="informazioni" justifyContent="center">
                   <Button variant="plain" size="sm" asChild>
                     <Link
                       to="/app/users/$userId"
@@ -81,9 +83,29 @@ const UserListItem = ({ user }: Props) => {
                   </Button>
                 </Menu.Item>
 
-                <Menu.Item value="elimina" asChild>
-                  <DeleteUserDialog user={user} />
-                </Menu.Item>
+                <GlobalPermissionGuard
+                  permission={GlobalPermission.USER_EDIT.key}
+                >
+                  <Menu.Item value="modifica" justifyContent="center">
+                    <Button variant="plain" size="sm" asChild>
+                      <Link
+                        to="/app/users/$userId/edit"
+                        params={{ userId: user.id.toString() }}
+                      >
+                        <FaRegEdit />
+                        {t("modifica")}
+                      </Link>
+                    </Button>
+                  </Menu.Item>
+                </GlobalPermissionGuard>
+
+                <GlobalPermissionGuard
+                  permission={GlobalPermission.USER_DELETE.key}
+                >
+                  <Menu.Item value="elimina" justifyContent="center" asChild>
+                    <DeleteUserDialog user={user} />
+                  </Menu.Item>
+                </GlobalPermissionGuard>
               </Menu.Content>
             </Menu.Positioner>
           </Portal>

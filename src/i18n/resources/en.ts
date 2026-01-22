@@ -7,6 +7,7 @@ const en = {
     info_short: "Info",
     info_long: "Informations",
     messaggio: "Message",
+    modifica: "Edit",
     elimina: "Delete",
     ricercaPlaceholder: "Search...",
     selezionaUtente: "Utente",
