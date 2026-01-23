@@ -34,6 +34,11 @@ const en = {
       progetti: "Projects",
     },
     utenti: {
+      cambioPassword: {
+        caption: "Reset password",
+        successo: "User password has been changed🔐",
+        errore: "Error during the password changing",
+      },
       cognome: "Last name",
       cognomePlaceholder: "Doe",
       nome: "First name",

@@ -15,6 +15,7 @@ import { Link } from "@tanstack/react-router";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import { LuInfo } from "react-icons/lu";
+import ChangeUserPasswordDialog from "./ChangeUserPasswordDialog";
 import DeleteUserDialog from "./DeleteUserDialog";
 import GlobalPermissionGuard from "./GlobalPermissionGuard";
 
@@ -72,7 +73,12 @@ const UserListItem = ({ user }: Props) => {
                 </Menu.Item> */}
 
                 <Menu.Item value="informazioni" justifyContent="center">
-                  <Button variant="plain" size="sm" asChild>
+                  <Button
+                    variant="plain"
+                    size="sm"
+                    _hover={{ bg: "bg.muted" }}
+                    asChild
+                  >
                     <Link
                       to="/app/users/$userId"
                       params={{ userId: user.id.toString() }}
@@ -87,7 +93,12 @@ const UserListItem = ({ user }: Props) => {
                   permission={GlobalPermission.USER_EDIT.key}
                 >
                   <Menu.Item value="modifica" justifyContent="center">
-                    <Button variant="plain" size="sm" asChild>
+                    <Button
+                      variant="plain"
+                      size="sm"
+                      _hover={{ bg: "bg.muted" }}
+                      asChild
+                    >
                       <Link
                         to="/app/users/$userId/edit"
                         params={{ userId: user.id.toString() }}
@@ -96,6 +107,14 @@ const UserListItem = ({ user }: Props) => {
                         {t("modifica")}
                       </Link>
                     </Button>
+                  </Menu.Item>
+                </GlobalPermissionGuard>
+
+                <GlobalPermissionGuard
+                  permission={GlobalPermission.USER_RESET_PASSWORD.key}
+                >
+                  <Menu.Item value="elimina" justifyContent="center" asChild>
+                    <ChangeUserPasswordDialog userId={user.id} />
                   </Menu.Item>
                 </GlobalPermissionGuard>
 

@@ -34,6 +34,11 @@ const it = {
       progetti: "Progetti",
     },
     utenti: {
+      cambioPassword: {
+        caption: "Reset password",
+        successo: "Password utente cambiata con successo🔐",
+        errore: "Errore durante il cambio password",
+      },
       cognome: "Cognome",
       cognomePlaceholder: "Rossi",
       nome: "Nome",
