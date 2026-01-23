@@ -17,6 +17,7 @@ import { useRouter, useSearch } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import Image from "./Image";
 import { PasswordInput } from "./ui/password-input";
+import { toaster, Toaster } from "./ui/toaster";
 
 const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginRequest>();
@@ -26,7 +27,7 @@ const LoginForm = () => {
   const router = useRouter();
   const { redirect } = useSearch({ from: "/login" });
 
-  const { mutate, isPending } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: authService.login,
     onSuccess: (data) => {
       const { accessToken, details } = data;
@@ -34,15 +35,20 @@ const LoginForm = () => {
       setAuth(accessToken, details);
       router.navigate({ to: redirect ?? "/app" });
     },
-    onError: () => {
-      console.log("Login failed");
-    },
   });
 
   // submit handler function
-  const onSubmit = (formValues: LoginRequest) => {
-    mutate(formValues);
-  };
+  const onSubmit = (formValues: LoginRequest) =>
+    toaster.promise(mutateAsync(formValues), {
+      error: {
+        title: "Errore nel login",
+        description: "Autenticazione non riusciuta",
+        closable: true,
+      },
+      loading: {
+        title: "Caricamento",
+      },
+    });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -82,6 +88,7 @@ const LoginForm = () => {
           </Card.Root>
         </Center>
       </Container>
+      <Toaster />
     </form>
   );
 };
