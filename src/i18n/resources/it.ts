@@ -2,6 +2,7 @@ const it = {
   translation: {
     annulla: "Annulla",
     precedente: "Indietro",
+    salva: "Salva",
     submit: "Invia",
     successivo: "Avanti",
     info_short: "Info",
@@ -13,6 +14,7 @@ const it = {
     selezionaUtente: "Utente",
     seiSicuro: "Sei sicuro?",
     nonCorrisponde: "Non corrisponde",
+    caricamento: { titolo: "Caricamento...", descrizione: "Prego attendere" },
     login: {
       welcomeToTrackIt: "Benvenuto in TrackIt. Effettua il login",
       username: "Nome utente",
@@ -41,6 +43,7 @@ const it = {
       emailNonValida: "Email non è un formato valido",
       emailPlaceholder: "mario.rossi@trackit.it",
       infoUtenteStep: "Informazioni utente",
+      modificaInfoUtente: "Modifica informazioni utente @{{nominativo}}",
       password: "Password",
       passwordDiverse: "Le password sono diverse",
       passwordNonValida: "Password deve essere di almeno {{min}} caratteri",
@@ -49,6 +52,15 @@ const it = {
       confermaCreazione: "Confermi la creazione del nuovo utente?",
       eliminaUtenteMessaggio:
         "Questa azione è irreversibile. Questo porterà alla eliminazione dell'account <bold>{{nominativo}}</bold> e rimuoverà tutti i dati dal sistema. Digita <badge>trackit/@{{username}}</badge> per confermare l'eliminazione.",
+      salvataggioCompletato: {
+        titolo: "Salvataggio completato!🥳",
+        descrizione: "Informazioni utente salvate correttamente",
+      },
+      erroreSalvataggio: {
+        titolo: "Errore durante il salvataggio🥲",
+        descrizione:
+          "Errore durante il salvataggio delle informazioni dell'utente {{errore}}",
+      },
     },
     progetti: {
       listaProgetti: "Lista progetti",

@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from "axios";
 
 import { axiosInstance } from "@/api/axios";
-import type { RegisterUserRequest } from "@/api/requests";
+import type { RegisterUserRequest, UpdateUserRequest } from "@/api/requests";
 import type { FetchResponse } from "@/api/responses";
 
 class ApiClient<ENTITY_T> {
@@ -26,6 +26,12 @@ class ApiClient<ENTITY_T> {
   post = (data: RegisterUserRequest) => {
     return axiosInstance
       .post<ENTITY_T>(this.endpoint, data)
+      .then((res) => res.data);
+  };
+
+  put = (id: number | string, data: UpdateUserRequest) => {
+    return axiosInstance
+      .put<ENTITY_T>(this.endpoint + "/" + id, data)
       .then((res) => res.data);
   };
 

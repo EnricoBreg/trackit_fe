@@ -2,6 +2,7 @@ const en = {
   translation: {
     annulla: "Cancel",
     precedente: "Prev",
+    salva: "Save",
     submit: "Submit",
     successivo: "Next",
     info_short: "Info",
@@ -13,6 +14,7 @@ const en = {
     selezionaUtente: "Utente",
     seiSicuro: "Are you sure?",
     nonCorrisponde: "Doesn't match",
+    caricamento: { titolo: "Loading...", descrizione: "Please wait" },
     login: {
       welcomeToTrackIt: "Welcome to TrackIT. Sign in",
       username: "Username",
@@ -41,6 +43,7 @@ const en = {
       emailNonValida: "Email must be a valid format",
       emailPlaceholder: "john.doe@trackit.it",
       infoUtenteStep: "User info",
+      modificaInfoUtente: "Edit user @{{nominativo}} info",
       password: "Password",
       passwordDiverse: "The password are not equal",
       passwordNonValida: "Password must be at least {{min}} characters",
@@ -49,6 +52,15 @@ const en = {
       confermaCreazione: "Do you confirm to add new user?",
       eliminaUtenteMessaggio:
         "This action cannot be undone. This will permanently delete the <bold>{{nominativo}}</bold> account and remove data from the systems. Type <badge>trackit/@{{username}}</badge> to confirm del deletion.",
+      salvataggioCompletato: {
+        titolo: "Upload completed!🥳",
+        descrizione: "User has been saved successfully",
+      },
+      erroreSalvataggio: {
+        titolo: "Error during uploading🥲",
+        descrizione:
+          "An error occured during the upload of user information {{errore}}",
+      },
     },
     progetti: {
       listaProgetti: "Projects list",

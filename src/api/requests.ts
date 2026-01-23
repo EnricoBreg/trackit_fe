@@ -10,3 +10,10 @@ export interface RegisterUserRequest {
   email: string;
   password: string;
 }
+
+export interface UpdateUserRequest {
+  nome?: string;
+  cognome?: string;
+  username: string;
+  email: string;
+}
