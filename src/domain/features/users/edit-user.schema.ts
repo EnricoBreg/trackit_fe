@@ -8,4 +8,4 @@ export const editUserSchema = z.object({
   email: z.email(t("utenti.emailNonValida")),
 });
 
-export type EditUsereSchema = z.infer<typeof editUserSchema>;
+export type EditUserSchema = z.infer<typeof editUserSchema>;
