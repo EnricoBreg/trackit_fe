@@ -20,6 +20,10 @@ const it = {
       username: "Nome utente",
       password: "Password",
       login: "Entra",
+      errore: {
+        titolo: "Errore durante il login",
+        descrizione: "Autenticazione non riuscita. Controlla le credenziali",
+      },
     },
     main_menu: {
       titolo: "Menu principale",

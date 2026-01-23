@@ -1,5 +1,6 @@
 import { Toaster, toaster } from "@/components/ui/toaster";
 import type User from "@/domain/entities/User";
+import { editUserSchema } from "@/domain/features/users/edit-user.schema";
 import useAppTranslation from "@/hooks/useTranslation";
 import ApiClient from "@/services/api-client";
 import {
@@ -12,6 +13,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { AxiosError } from "axios";
@@ -23,8 +25,8 @@ interface EditUserFormProps {
 }
 
 interface UserFormValues {
-  nome: string;
-  cognome: string;
+  nome?: string;
+  cognome?: string;
   username: string;
   email: string;
 }
@@ -44,6 +46,7 @@ const EditUserForm = ({ user }: EditUserFormProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<UserFormValues>({
+    resolver: zodResolver(editUserSchema),
     defaultValues: {
       nome: user.nome,
       cognome: user.cognome,
@@ -104,8 +107,6 @@ const EditUserForm = ({ user }: EditUserFormProps) => {
               <Field.Root>
                 <Field.Label>{t("utenti.nome")}</Field.Label>
                 <Input {...register("nome")} />
-                <Field.HelperText />
-                <Field.ErrorText />
               </Field.Root>
             </GridItem>
 
@@ -114,33 +115,31 @@ const EditUserForm = ({ user }: EditUserFormProps) => {
               <Field.Root>
                 <Field.Label>{t("utenti.cognome")}</Field.Label>
                 <Input {...register("cognome")} />
-                <Field.HelperText />
-                <Field.ErrorText />
               </Field.Root>
             </GridItem>
 
             <GridItem>
-              <Field.Root required disabled>
+              <Field.Root required disabled invalid={!!errors.username}>
                 <Field.Label>
                   {t("utenti.username")}
                   <Field.RequiredIndicator />
                 </Field.Label>
                 <Input {...register("username")} />
-                <Field.HelperText>
+                <Field.HelperText color="fg.subtle">
                   {t("utenti.usernameHelper")}
                 </Field.HelperText>
-                <Field.ErrorText />
+                <Field.ErrorText>{errors.username?.message}</Field.ErrorText>
               </Field.Root>
             </GridItem>
 
             <GridItem>
-              <Field.Root required>
+              <Field.Root required invalid={!!errors.email}>
                 <Field.Label>
                   {t("utenti.email")}
                   <Field.RequiredIndicator />
                 </Field.Label>
                 <Input {...register("email")} />
-                <Field.ErrorText />
+                <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
               </Field.Root>
             </GridItem>
           </SimpleGrid>

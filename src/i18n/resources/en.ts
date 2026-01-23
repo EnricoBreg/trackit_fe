@@ -20,6 +20,10 @@ const en = {
       username: "Username",
       password: "Password",
       login: "Login",
+      errore: {
+        titolo: "Error during login",
+        descrizione: "Authentication failed. Check your credentials",
+      },
     },
     main_menu: {
       titolo: "Main Menu",
