@@ -1,7 +1,11 @@
 import type { AxiosRequestConfig } from "axios";
 
 import { axiosInstance } from "@/api/axios";
-import type { RegisterUserRequest, UpdateUserRequest } from "@/api/requests";
+import type {
+  ChangeUserPasswordRequest,
+  RegisterUserRequest,
+  UpdateUserRequest,
+} from "@/api/requests";
 import type { FetchResponse } from "@/api/responses";
 
 class ApiClient<ENTITY_T> {
@@ -33,6 +37,12 @@ class ApiClient<ENTITY_T> {
     return axiosInstance
       .put<ENTITY_T>(this.endpoint + "/" + id, data)
       .then((res) => res.data);
+  };
+
+  changePassword = (userId: number | string, newPassword: string) => {
+    const request: ChangeUserPasswordRequest = { newPassword };
+
+    return axiosInstance.post(`${this.endpoint}/${userId}/password`, request);
   };
 
   delete = (data: string | number) => {

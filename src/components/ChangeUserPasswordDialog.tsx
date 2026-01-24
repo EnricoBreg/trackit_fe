@@ -1,5 +1,8 @@
+import type { BackendErrorResponse } from "@/api/responses";
+import type User from "@/domain/entities/User";
 import { updateUserPasswordSchema } from "@/domain/features/users/update-user-password.schema";
 import useAppTranslation from "@/hooks/useTranslation";
+import ApiClient from "@/services/api-client";
 import {
   Button,
   CloseButton,
@@ -28,8 +31,10 @@ interface FormValues {
 
 type UpdateUserPasswordVariables = {
   id: string | number;
-  data: FormValues;
+  newPassword: string;
 };
+
+const apiClient = new ApiClient<User>("users");
 
 const ChangeUserPasswordDialog = ({ userId }: Props) => {
   const { t } = useAppTranslation();
@@ -47,11 +52,13 @@ const ChangeUserPasswordDialog = ({ userId }: Props) => {
     },
   });
   const { mutateAsync, isPending } = useMutation<
-    FormValues,
-    AxiosError,
+    void,
+    AxiosError<BackendErrorResponse>,
     UpdateUserPasswordVariables
   >({
-    // mutationFn: ({id, data}) => apiClient.changePassword(id, data),
+    mutationFn: async ({ id, newPassword }) => {
+      await apiClient.changePassword(id, newPassword);
+    },
     onSuccess: (_) => {
       reset();
       dialog.setOpen(false);
@@ -61,27 +68,22 @@ const ChangeUserPasswordDialog = ({ userId }: Props) => {
   const onSubmit = (data: FormValues) => {
     console.log("data", data);
 
-    const promise = new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve();
-        reset();
-        dialog.setOpen(false);
-      }, 3000);
-    });
-
-    toaster.promise(promise /* mutateAsync({ id: userId, data }) */, {
-      success: {
-        title: t("utenti.cambioPassword.successo"),
-        closable: true,
+    toaster.promise(
+      /* promise */ mutateAsync({ id: userId, newPassword: data.password }),
+      {
+        success: {
+          title: t("utenti.cambioPassword.successo"),
+          closable: true,
+        },
+        error: {
+          title: t("utenti.cambioPassword.errore"),
+          closable: true,
+        },
+        loading: {
+          title: t("caricamento.titolo"),
+        },
       },
-      error: {
-        title: t("utenti.cambioPassword.errore"),
-        closable: true,
-      },
-      loading: {
-        title: t("caricamento.titolo"),
-      },
-    });
+    );
   };
 
   return (

@@ -17,3 +17,7 @@ export interface UpdateUserRequest {
   username: string;
   email: string;
 }
+
+export interface ChangeUserPasswordRequest {
+  newPassword: string;
+}
