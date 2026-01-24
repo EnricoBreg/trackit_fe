@@ -1,4 +1,5 @@
 import { type LoginRequest } from "@/api/requests";
+import type { BackendErrorResponse, LoginResponse } from "@/api/responses";
 import logo from "@/assets/images/Track_IT__logo.png";
 import useAuthStore from "@/hooks/stores/useAuthStore";
 import useAppTranslation from "@/hooks/useTranslation";
@@ -28,7 +29,11 @@ const LoginForm = () => {
   const router = useRouter();
   const { redirect } = useSearch({ from: "/login" });
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync, isPending } = useMutation<
+    LoginResponse,
+    AxiosError<BackendErrorResponse>,
+    LoginRequest
+  >({
     mutationFn: authService.login,
     onSuccess: (data) => {
       const { accessToken, details } = data;
@@ -42,21 +47,14 @@ const LoginForm = () => {
   const onSubmit = (formValues: LoginRequest) =>
     toaster.promise(mutateAsync(formValues), {
       error: (err: unknown) => {
-        console.log(err);
-        if (err instanceof AxiosError) {
-          return {
-            title: t("login.errore.titolo"),
-            description:
-              err.response?.data ??
-              err.message ??
-              t("login.errore.descrizione"),
-            closable: true,
-          };
-        }
+        const axiosError = err as AxiosError<BackendErrorResponse>;
 
         return {
           title: t("login.errore.titolo"),
-          description: t("login.errore.descrizione"),
+          description:
+            axiosError.response?.data.message ??
+            axiosError.message ??
+            t("login.errore.descrizione"),
           closable: true,
         };
       },
