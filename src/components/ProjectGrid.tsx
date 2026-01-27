@@ -30,7 +30,7 @@ const ProjectGrid = () => {
           ))}
 
         {projects.map((project) => (
-          <ProjectCardContainer key={project.uuid}>
+          <ProjectCardContainer key={project.id}>
             <ProjectCard project={project} />
           </ProjectCardContainer>
         ))}

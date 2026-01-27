@@ -1,5 +1,7 @@
 import type Project from "@/domain/entities/Project";
+import useAppTranslation from "@/hooks/useTranslation";
 import { Badge, Box, Button, Card } from "@chakra-ui/react";
+import { Link } from "@tanstack/react-router";
 
 interface ProjectCardProps {
   project: Project;
@@ -7,6 +9,8 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project, variant = "outline" }: ProjectCardProps) => {
+  const { t } = useAppTranslation();
+
   return (
     <Card.Root width="full" variant={variant}>
       <Card.Body gap="2">
@@ -19,7 +23,14 @@ const ProjectCard = ({ project, variant = "outline" }: ProjectCardProps) => {
         <Card.Description>{project.descrizione}</Card.Description>
       </Card.Body>
       <Card.Footer justifyContent="flex-end">
-        <Button variant="outline">Dettagli</Button>
+        <Button variant="outline" asChild>
+          <Link
+            to="/app/projects/$projectId"
+            params={{ projectId: project.id }}
+          >
+            {t("dettagli")}
+          </Link>
+        </Button>
       </Card.Footer>
     </Card.Root>
   );

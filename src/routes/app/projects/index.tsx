@@ -5,7 +5,7 @@ import { GlobalPermission } from "@/domain/global-permissions";
 import useProjectQueryStore from "@/hooks/stores/useProjectQueryStore";
 import useProjects from "@/hooks/useProjects";
 import useAppTranslation from "@/hooks/useTranslation";
-import projectQueryOptions from "@/queries/projectsQuery";
+import projectsQueryOptions from "@/queries/projectsQuery";
 import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { RiAddCircleLine } from "react-icons/ri";
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/app/projects/")({
   loader: ({ context }) => {
     const projectQuery = useProjectQueryStore.getState().projectQuery;
     return context.queryClient.ensureInfiniteQueryData(
-      projectQueryOptions(projectQuery),
+      projectsQueryOptions(projectQuery),
     );
   },
 });

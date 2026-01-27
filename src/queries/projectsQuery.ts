@@ -7,7 +7,7 @@ import ms from "ms";
 
 const apiClient = new ApiClient<Project>("/projects");
 
-const projectQueryOptions = (projectQuery: ProjectQuery) =>
+const projectsQueryOptions = (projectQuery: ProjectQuery) =>
   infiniteQueryOptions<FetchResponse<Project>, Error>({
     queryKey: ["projects", projectQuery],
     queryFn: ({ pageParam = 1 }) =>
@@ -25,4 +25,4 @@ const projectQueryOptions = (projectQuery: ProjectQuery) =>
     },
   });
 
-export default projectQueryOptions;
+export default projectsQueryOptions;

@@ -1,6 +1,7 @@
 const en = {
   translation: {
     annulla: "Cancel",
+    dettagli: "Details",
     precedente: "Prev",
     salva: "Save",
     submit: "Submit",

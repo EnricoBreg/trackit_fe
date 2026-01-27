@@ -1,5 +1,5 @@
 export default interface Project {
-  uuid: string;
+  id: string;
   nome: string;
   descrizione: string;
   stato: string;
