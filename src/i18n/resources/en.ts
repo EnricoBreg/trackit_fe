@@ -88,6 +88,9 @@ const en = {
       tasks: "Tasks",
       commenti: "Comments",
     },
+    membri: {
+      aggiungiNuovo: "Add new member",
+    },
     task: {
       stato: {
         DA_ASSEGNARE: "To be assigned",

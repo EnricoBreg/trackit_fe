@@ -88,6 +88,9 @@ const it = {
       tasks: "Task",
       commenti: "Commenti",
     },
+    membri: {
+      aggiungiNuovo: "Aggiungi nuovo membro",
+    },
     task: {
       stato: {
         DA_ASSEGNARE: "Da assegnare",

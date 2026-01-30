@@ -1,6 +1,19 @@
-import { Box, Button, Card, HStack, Text, VStack } from "@chakra-ui/react";
+import useProjectMembers from "@/hooks/useProjectMembers";
+import useAppTranslation from "@/hooks/useTranslation";
+import { getUserDisplayName } from "@/utils/users-utils";
+import {
+  Box,
+  Button,
+  Card,
+  HStack,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Link, useParams } from "@tanstack/react-router";
+import React from "react";
 import { FiMail, FiPlus } from "react-icons/fi";
+import InfiniteScroll from "react-infinite-scroll-component";
 import UserAvatar from "../UserAvatar";
 
 /**
@@ -9,38 +22,15 @@ import UserAvatar from "../UserAvatar";
  */
 const MembersTab = () => {
   const { projectId } = useParams({ strict: false });
+  const { data, error, isLoading, fetchNextPage, hasNextPage } =
+    useProjectMembers(projectId!);
+  const { t } = useAppTranslation();
 
-  // Mock data - in produzione: fetch da API
-  const members = [
-    {
-      id: "1",
-      name: "Laura Bianchi",
-      role: "Project Manager",
-      email: "l.bianchi@example.com",
-      avatar: "",
-    },
-    {
-      id: "2",
-      name: "Marco Rossi",
-      role: "Senior Developer",
-      email: "m.rossi@example.com",
-      avatar: "",
-    },
-    {
-      id: "3",
-      name: "Sofia Verdi",
-      role: "UX Designer",
-      email: "s.verdi@example.com",
-      avatar: "",
-    },
-    {
-      id: "4",
-      name: "Luca Neri",
-      role: "Backend Developer",
-      email: "l.neri@example.com",
-      avatar: "",
-    },
-  ];
+  if (error)
+    return <Text>{error.response?.data.message ?? error.message}</Text>;
+
+  const fetchedTasksCount =
+    data?.pages.reduce((total, page) => (total += page.results.length), 0) || 0;
 
   return (
     <Box>
@@ -51,44 +41,50 @@ const MembersTab = () => {
       >
         <Button colorScheme="blue" size="md" mb={6}>
           <FiPlus />
-          Aggiungi membro
+          {t("membri.aggiungiNuovo")}
         </Button>
       </Link>
 
       {/* Lista membri */}
-      <VStack gap={3} align="stretch">
-        {members.map((member) => (
-          <Card.Root key={member.id} variant="outline">
-            <Card.Body>
-              <HStack justify="space-between">
-                <HStack gap={4}>
-                  <UserAvatar name={member.name} />
-                  <VStack align="start" gap={1}>
-                    <Text fontWeight="semibold" fontSize="md">
-                      {member.name}
-                    </Text>
-                    <Text color="gray.600" fontSize="sm">
-                      {member.role}
-                    </Text>
-                  </VStack>
-                </HStack>
+      <InfiniteScroll
+        dataLength={fetchedTasksCount}
+        hasMore={!!hasNextPage}
+        next={() => fetchNextPage()}
+        loader={<Spinner />}
+      >
+        <VStack gap={3} align="stretch">
+          {isLoading && <Spinner />}
 
-                <HStack gap={2} color="gray.500">
-                  <FiMail />
-                  <Text fontSize="sm">{member.email}</Text>
-                </HStack>
-              </HStack>
-            </Card.Body>
-          </Card.Root>
-        ))}
-      </VStack>
+          {data?.pages.map((page, index) => (
+            <React.Fragment key={index}>
+              {page.results.map((member) => (
+                <Card.Root key={member.id} variant="outline">
+                  <Card.Body>
+                    <HStack justify="space-between">
+                      <HStack gap={4}>
+                        <UserAvatar name={getUserDisplayName(member)} />
+                        <VStack align="start" gap={1}>
+                          <Text fontWeight="semibold" fontSize="md">
+                            {getUserDisplayName(member)}
+                          </Text>
+                          <Text color="gray.600" fontSize="sm">
+                            {"member.role"}
+                          </Text>
+                        </VStack>
+                      </HStack>
 
-      {/* Stato vuoto */}
-      {members.length === 0 && (
-        <Box textAlign="center" py={12} color="gray.500">
-          <Text>Nessun membro nel progetto. Aggiungi il primo!</Text>
-        </Box>
-      )}
+                      <HStack gap={2} color="gray.500">
+                        <FiMail />
+                        <Text fontSize="sm">{member.email}</Text>
+                      </HStack>
+                    </HStack>
+                  </Card.Body>
+                </Card.Root>
+              ))}
+            </React.Fragment>
+          ))}
+        </VStack>
+      </InfiniteScroll>
     </Box>
   );
 };
