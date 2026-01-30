@@ -1,6 +1,7 @@
 import { Box, Button, Card, HStack, Text, VStack } from "@chakra-ui/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { FiMessageSquare, FiPlus } from "react-icons/fi";
+import UserAvatar from "../UserAvatar";
 
 /**
  * Tab Commenti: timeline di commenti + pulsante aggiunta.
@@ -73,7 +74,7 @@ const CommentsTab = () => {
           <Card.Root key={comment.id} variant="outline">
             <Card.Body>
               <HStack align="start" gap={4}>
-                {/* <Avatar name={comment.author} size="md" /> */}
+                <UserAvatar name={comment.author} />
                 <VStack align="start" gap={2} flex="1">
                   <HStack justify="space-between" w="full">
                     <Text fontWeight="semibold" fontSize="sm">

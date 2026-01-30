@@ -1,6 +1,7 @@
 import { Box, Button, Card, HStack, Text, VStack } from "@chakra-ui/react";
 import { Link, useParams } from "@tanstack/react-router";
 import { FiMail, FiPlus } from "react-icons/fi";
+import UserAvatar from "../UserAvatar";
 
 /**
  * Tab Membri: lista membri del progetto + pulsante di aggiunta.
@@ -61,7 +62,7 @@ const MembersTab = () => {
             <Card.Body>
               <HStack justify="space-between">
                 <HStack gap={4}>
-                  {/* <Avatar name={member.name} size="md" /> */}
+                  <UserAvatar name={member.name} />
                   <VStack align="start" gap={1}>
                     <Text fontWeight="semibold" fontSize="md">
                       {member.name}

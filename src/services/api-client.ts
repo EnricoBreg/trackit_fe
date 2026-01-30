@@ -1,11 +1,7 @@
 import type { AxiosRequestConfig } from "axios";
 
 import { axiosInstance } from "@/api/axios";
-import type {
-  ChangeUserPasswordRequest,
-  RegisterUserRequest,
-  UpdateUserRequest,
-} from "@/api/requests";
+import type { ChangeUserPasswordRequest } from "@/api/requests";
 import type { FetchResponse } from "@/api/responses";
 
 class ApiClient<ENTITY_T> {
@@ -27,13 +23,13 @@ class ApiClient<ENTITY_T> {
       .then((res) => res.data);
   };
 
-  post = (data: RegisterUserRequest) => {
+  post = <REQUEST_SHAPE>(data: REQUEST_SHAPE) => {
     return axiosInstance
       .post<ENTITY_T>(this.endpoint, data)
       .then((res) => res.data);
   };
 
-  put = (id: number | string, data: UpdateUserRequest) => {
+  put = <REQUEST_SHAPE>(id: number | string, data: REQUEST_SHAPE) => {
     return axiosInstance
       .put<ENTITY_T>(this.endpoint + "/" + id, data)
       .then((res) => res.data);

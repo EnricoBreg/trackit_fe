@@ -1,5 +1,6 @@
 import type Project from "@/domain/entities/Project";
 import useAppTranslation from "@/hooks/useTranslation";
+import getProjectStatusColor from "@/utils/getProjectStatusColor";
 import { Badge, Box, Button, Card } from "@chakra-ui/react";
 import { Link } from "@tanstack/react-router";
 
@@ -15,8 +16,8 @@ const ProjectCard = ({ project, variant = "outline" }: ProjectCardProps) => {
     <Card.Root width="full" variant={variant}>
       <Card.Body gap="2">
         <Box>
-          <Badge size="md" colorPalette="green">
-            {project.stato}
+          <Badge size="md" colorPalette={getProjectStatusColor(project.stato)}>
+            {t(`progetti.stato.${project.stato}`)}
           </Badge>
         </Box>
         <Card.Title mb="2">{project.nome}</Card.Title>

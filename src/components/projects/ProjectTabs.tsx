@@ -1,3 +1,4 @@
+import useAppTranslation from "@/hooks/useTranslation";
 import { Box, Flex, HStack, Text } from "@chakra-ui/react";
 import { Link, useMatchRoute } from "@tanstack/react-router";
 import { FaRegComment } from "react-icons/fa6";
@@ -9,21 +10,22 @@ interface Props {
 }
 
 const ProjectTabs = ({ projectId }: Props) => {
+  const { t } = useAppTranslation();
   const matchRoute = useMatchRoute();
 
   const tabs = [
     {
-      label: "Membri",
+      label: t("progetti.membri"),
       path: `/app/projects/${projectId}/members`,
       icon: <FaRegComment />,
     },
     {
-      label: "Task",
+      label: t("progetti.tasks"),
       path: `/app/projects/${projectId}/tasks`,
       icon: <FiClipboard />,
     },
     {
-      label: "Commenti",
+      label: t("progetti.commenti"),
       path: `/app/projects/${projectId}/comments`,
       icon: <LuUser />,
     },
@@ -45,14 +47,14 @@ const ProjectTabs = ({ projectId }: Props) => {
                 px={6}
                 py={3}
                 borderBottomWidth="2px"
-                borderBottomColor={isActive ? "blue.500" : "transparent"}
-                color={isActive ? "blue.600" : "gray.600"}
+                borderBottomColor={isActive ? "gray.500" : "transparent"}
+                color={isActive ? "gray.800" : "gray.500"}
                 fontWeight={isActive ? "semibold" : "medium"}
                 fontSize="sm"
                 cursor="pointer"
                 transition="all 0.2s"
                 _hover={{
-                  color: "blue.600",
+                  color: "gray.600",
                   bg: "gray.50",
                 }}
               >

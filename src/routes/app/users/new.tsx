@@ -1,3 +1,4 @@
+import type { RegisterUserRequest } from "@/api/requests";
 import {
   handleBackendErrors,
   type BackendErrorResponse,
@@ -35,7 +36,7 @@ function RouteComponent() {
   const router = useRouter();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: apiClient.post,
+    mutationFn: apiClient.post<RegisterUserRequest>,
   });
 
   const steps: WizardStep<CreateUserForm>[] = [

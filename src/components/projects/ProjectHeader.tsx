@@ -1,4 +1,7 @@
 import type Project from "@/domain/entities/Project";
+import useAppTranslation from "@/hooks/useTranslation";
+import getFormattedDate from "@/utils/getFormattedDate";
+import getProjectStatusColor from "@/utils/getProjectStatusColor";
 import { Badge, Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 
 interface ProjectHeaderProps {
@@ -10,26 +13,16 @@ interface ProjectHeaderProps {
  * Design: Card minimalista con separazione netta dal contenuto sottostante.
  */
 const ProjectHeader = ({ project }: ProjectHeaderProps) => {
-  const getStatusColor = (status: string) => {
-    const statusMap: Record<string, string> = {
-      IN_PROGRESS: "blue",
-      DONE: "green",
-      ARCHIVED: "orange",
-      CANCELLED: "red",
-      REJECTED: "red",
-    };
-    console.log(statusMap[status]);
-    return statusMap[status] || "gray";
-  };
+  const { t } = useAppTranslation();
 
   return (
     <Box
       bg="white"
-      borderRadius="lg"
+      borderRadius="xl"
       borderWidth="1px"
       borderColor="gray.200"
       p={6}
-      boxShadow="sm"
+      boxShadow="xs"
     >
       <VStack align="start" gap={3}>
         {/* Nome progetto e status */}
@@ -38,12 +31,12 @@ const ProjectHeader = ({ project }: ProjectHeaderProps) => {
             {project.nome}
           </Heading>
           <Badge
-            colorPalette={getStatusColor(project.stato)}
-            fontSize="sm"
+            colorPalette={getProjectStatusColor(project.stato)}
+            fontSize="md"
             px={3}
             py={1}
           >
-            {project.stato}
+            {t(`progetti.stato.${project.stato}`)}
           </Badge>
         </HStack>
 
@@ -56,15 +49,15 @@ const ProjectHeader = ({ project }: ProjectHeaderProps) => {
         <HStack gap={4} color="gray.500" fontSize="sm">
           <Text>
             <Text as="span" fontWeight="medium">
-              ID:
-            </Text>{" "}
+              ID:{" "}
+            </Text>
             {project.id}
           </Text>
           <Text>
             <Text as="span" fontWeight="medium">
-              Creato il:
-            </Text>{" "}
-            {new Date(project.dataCreazione).toLocaleDateString("it-IT")}
+              {t("progetti.creatoIl")}:{" "}
+            </Text>
+            {getFormattedDate(project.dataCreazione)}
           </Text>
         </HStack>
       </VStack>
