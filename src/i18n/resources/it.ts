@@ -107,6 +107,7 @@ const it = {
       },
       scadenza: "Scadenza",
       assegnatoA: "Assegnata a",
+      creaNuova: "Crea nuova task",
     },
     not_found: {
       pageNotFound: "Pagina non trovata",

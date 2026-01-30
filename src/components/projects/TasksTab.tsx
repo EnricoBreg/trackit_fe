@@ -47,7 +47,7 @@ const TasksTab = () => {
       >
         <Button colorScheme="blue" size="md" mb={6}>
           <FiPlus />
-          Crea nuova task
+          {t("task.creaNuova")}
         </Button>
       </Link>
 

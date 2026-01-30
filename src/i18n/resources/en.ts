@@ -107,6 +107,7 @@ const en = {
       },
       scadenza: "Expirity",
       assegnatoA: "Assigned to",
+      creaNuova: "Create new task",
     },
     not_found: {
       pageNotFound: "Page Not Found",
