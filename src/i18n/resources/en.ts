@@ -105,6 +105,8 @@ const en = {
         MEDIO_ALTA: "Medium-High",
         ALTA: "High",
       },
+      scadenza: "Expirity",
+      assegnatoA: "Assigned to",
     },
     not_found: {
       pageNotFound: "Page Not Found",

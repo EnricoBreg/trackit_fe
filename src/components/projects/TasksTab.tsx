@@ -32,37 +32,6 @@ const TasksTab = () => {
   );
   const { t } = useAppTranslation();
 
-  // Mock data
-  /* const tasks = [
-    {
-      id: "1",
-      title: "Implementare autenticazione OAuth",
-      priority: "Alta",
-      status: "In corso",
-      progress: 65,
-      assignee: "Marco Rossi",
-      dueDate: "2025-02-05",
-    },
-    {
-      id: "2",
-      title: "Design sistema di notifiche",
-      priority: "Media",
-      status: "Da fare",
-      progress: 0,
-      assignee: "Sofia Verdi",
-      dueDate: "2025-02-10",
-    },
-    {
-      id: "3",
-      title: "Refactoring componenti legacy",
-      priority: "Bassa",
-      status: "In revisione",
-      progress: 90,
-      assignee: "Luca Neri",
-      dueDate: "2025-01-30",
-    },
-  ]; */
-
   if (error)
     return <Text>{error.response?.data.message ?? error.message}</Text>;
 
@@ -139,7 +108,7 @@ const TasksTab = () => {
                       >
                         {task.assegnatario && (
                           <Flex alignItems="center" gap={1}>
-                            <Text>Assegnato a: </Text>
+                            <Text>{t("task.assegnataA")}: </Text>
                             <UserAvatar
                               name={task.assegnatario.nominativo}
                               size="xs"
@@ -150,7 +119,8 @@ const TasksTab = () => {
                         <HStack gap={1}>
                           <FiClock />
                           <Text>
-                            Scadenza: {getFormattedDate(task.dataCreazione)}
+                            {t("task.scadenza")}:{" "}
+                            {getFormattedDate(task.dataCreazione)}
                           </Text>
                         </HStack>
                       </HStack>
@@ -162,13 +132,6 @@ const TasksTab = () => {
           ))}
         </VStack>
       </InfiniteScroll>
-
-      {/* Stato vuoto */}
-      {/* {tasks.length === 0 && (
-        <Box textAlign="center" py={12} color="gray.500">
-          <Text>Nessuna task presente. Crea la prima!</Text>
-        </Box>
-      )} */}
     </Box>
   );
 };

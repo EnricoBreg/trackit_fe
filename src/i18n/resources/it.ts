@@ -105,6 +105,8 @@ const it = {
         MEDIO_ALTA: "Medio-Alta",
         ALTA: "Alta",
       },
+      scadenza: "Scadenza",
+      assegnatoA: "Assegnata a",
     },
     not_found: {
       pageNotFound: "Pagina non trovata",
