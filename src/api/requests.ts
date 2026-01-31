@@ -21,3 +21,8 @@ export interface UpdateUserRequest {
 export interface ChangeUserPasswordRequest {
   newPassword: string;
 }
+
+export interface AddProjectMembeRequest {
+  userId: string | number;
+  roleId: string | number;
+}

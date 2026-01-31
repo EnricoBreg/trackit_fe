@@ -13,6 +13,7 @@ const en = {
     elimina: "Delete",
     ricercaPlaceholder: "Search...",
     selezionaUtente: "Utente",
+    selezionaRuolo: "Role",
     seiSicuro: "Are you sure?",
     nonCorrisponde: "Doesn't match",
     caricamento: { titolo: "Loading...", descrizione: "Please wait" },

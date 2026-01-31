@@ -1,22 +1,16 @@
 import useProjectMembers from "@/hooks/useProjectMembers";
 import useAppTranslation from "@/hooks/useTranslation";
 import { getUserDisplayName } from "@/utils/users-utils";
-import {
-  Box,
-  Button,
-  Card,
-  HStack,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { Link, useParams } from "@tanstack/react-router";
+import { Box, Card, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
+import { useParams } from "@tanstack/react-router";
 import React from "react";
-import { FiMail, FiPlus } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UserAvatar from "../UserAvatar";
+import MemberFormDialog from "./MemberFormDialog";
 
 /**
+ *
  * Tab Membri: lista membri del progetto + pulsante di aggiunta.
  * Pattern: Azione primaria in alto (CTA), contenuto sotto.
  */
@@ -35,7 +29,8 @@ const MembersTab = () => {
   return (
     <Box>
       {/* CTA primaria */}
-      <Link
+      {/* TODO: fare form con un semplice dialog? */}
+      {/* <Link
         to="/app/projects/$projectId/members/new"
         params={{ projectId: projectId! }}
       >
@@ -43,7 +38,8 @@ const MembersTab = () => {
           <FiPlus />
           {t("membri.aggiungiNuovo")}
         </Button>
-      </Link>
+      </Link> */}
+      <MemberFormDialog projectId={projectId!} />
 
       {/* Lista membri */}
       <InfiniteScroll

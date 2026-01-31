@@ -13,6 +13,7 @@ const it = {
     elimina: "Elimina",
     ricercaPlaceholder: "Ricerca...",
     selezionaUtente: "Utente",
+    selezionaRuolo: "Ruolo",
     seiSicuro: "Sei sicuro?",
     nonCorrisponde: "Non corrisponde",
     caricamento: { titolo: "Caricamento...", descrizione: "Prego attendere" },

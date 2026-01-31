@@ -44,7 +44,7 @@ import {
   Stack,
   type SelectValueChangeDetails,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { LuSearch } from "react-icons/lu";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -65,6 +65,7 @@ interface EntitySelectProps<T> {
   onChange: (value: number | string) => void; // callback di selezione (opzionale)
   onSearchChange?: (value: string) => void; // callback usata quando cambia il valore nella box di ricerca (opzionale)
   placeholder?: string; // placeholder che viene mostrato (opzionale)
+  forwardRef?: React.RefObject<HTMLElement>; // usata per renderizzare il Portal dentro un altro Portal
 }
 
 function EntitySelect<T>({
@@ -80,11 +81,14 @@ function EntitySelect<T>({
   onChange,
   onSearchChange,
   placeholder,
+  forwardRef,
 }: EntitySelectProps<T>) {
   const { t } = useAppTranslation();
 
   const [_, setInternalValue] = useState(value);
   const [searchText, setSearchText] = useState(""); // stato di ricerca interno
+
+  const containerRef = React.useRef(null);
 
   const handleOnKeyDown = (event: React.KeyboardEvent) => {
     const blockedKeys = [" ", "Spacebar"]; // Spacebar per vecchi browser
@@ -107,79 +111,81 @@ function EntitySelect<T>({
   );
 
   return (
-    <Select.Root
-      collection={collection}
-      size="md"
-      width="320px"
-      defaultValue={[value?.toString()!!]}
-      onValueChange={(val) => handleOnChange(val)}
-    >
-      <Select.HiddenSelect />
-      <Select.Label>{caption}</Select.Label>
-      <Select.Control>
-        <Select.Trigger>
-          <Select.ValueText placeholder={placeholder ?? "-"} />
-        </Select.Trigger>
-        <Select.IndicatorGroup>
-          <Select.ClearTrigger />
-          <Select.Indicator />
-        </Select.IndicatorGroup>
-      </Select.Control>
-      <Portal>
-        <Select.Positioner>
-          <Select.Content>
-            <div
-              id="entity-scroll"
-              style={{ maxHeight: "300px", overflow: "auto" }}
-            >
-              {onSearchChange && (
-                <Box
-                  padding={2}
-                  position="sticky"
-                  top="0"
-                  bg="bg.panel"
-                  zIndex="1"
-                >
-                  <InputGroup flex="1" startElement={<LuSearch />}>
-                    <Input
-                      placeholder={t("ricercaPlaceholder")}
-                      size="sm"
-                      value={searchText}
-                      onChange={(e) => handleOnSearchChange(e.target.value)}
-                      onKeyDown={(e) => handleOnKeyDown(e)}
-                    />
-                  </InputGroup>
-                </Box>
-              )}
-              <InfiniteScroll
-                dataLength={items.length}
-                hasMore={!!hasNextPage}
-                next={() => fetchNextPage()}
-                loader={<Spinner />}
-                scrollableTarget="entity-scroll"
+    <div ref={containerRef}>
+      <Select.Root
+        collection={collection}
+        size="md"
+        width="full"
+        defaultValue={[value?.toString()!!]}
+        onValueChange={(val) => handleOnChange(val)}
+      >
+        <Select.HiddenSelect />
+        <Select.Label>{caption}</Select.Label>
+        <Select.Control>
+          <Select.Trigger>
+            <Select.ValueText placeholder={placeholder ?? "-"} />
+          </Select.Trigger>
+          <Select.IndicatorGroup>
+            <Select.ClearTrigger />
+            <Select.Indicator />
+          </Select.IndicatorGroup>
+        </Select.Control>
+        <Portal container={containerRef}>
+          <Select.Positioner>
+            <Select.Content>
+              <div
+                id="entity-scroll"
+                style={{ maxHeight: "300px", overflow: "auto" }}
               >
-                {isLoading && (
-                  <Center>
-                    <Spinner />
-                  </Center>
+                {onSearchChange && (
+                  <Box
+                    padding={2}
+                    position="sticky"
+                    top="0"
+                    bg="bg.panel"
+                    zIndex="1"
+                  >
+                    <InputGroup flex="1" startElement={<LuSearch />}>
+                      <Input
+                        placeholder={t("ricercaPlaceholder")}
+                        size="sm"
+                        value={searchText}
+                        onChange={(e) => handleOnSearchChange(e.target.value)}
+                        onKeyDown={(e) => handleOnKeyDown(e)}
+                      />
+                    </InputGroup>
+                  </Box>
                 )}
-                {collection.items.map((item) => (
-                  <Select.Item item={item} key={itemToValue(item)}>
-                    <Stack gap="0">
-                      <Select.ItemText>{itemToString(item)}</Select.ItemText>
-                      <Span color="fg.muted" textStyle="xs">
-                        {itemToDetail ? itemToDetail(item) : ""}
-                      </Span>
-                    </Stack>
-                    <Select.ItemIndicator />
-                  </Select.Item>
-                ))}
-              </InfiniteScroll>
-            </div>
-          </Select.Content>
-        </Select.Positioner>
-      </Portal>
-    </Select.Root>
+                <InfiniteScroll
+                  dataLength={items.length}
+                  hasMore={!!hasNextPage}
+                  next={() => fetchNextPage()}
+                  loader={<Spinner />}
+                  scrollableTarget="entity-scroll"
+                >
+                  {isLoading && (
+                    <Center>
+                      <Spinner />
+                    </Center>
+                  )}
+                  {collection.items.map((item) => (
+                    <Select.Item item={item} key={itemToValue(item)}>
+                      <Stack gap="0">
+                        <Select.ItemText>{itemToString(item)}</Select.ItemText>
+                        <Span color="fg.muted" textStyle="xs">
+                          {itemToDetail ? itemToDetail(item) : ""}
+                        </Span>
+                      </Stack>
+                      <Select.ItemIndicator />
+                    </Select.Item>
+                  ))}
+                </InfiniteScroll>
+              </div>
+            </Select.Content>
+          </Select.Positioner>
+        </Portal>
+      </Select.Root>
+    </div>
   );
 }
 
