@@ -66,8 +66,6 @@ const ChangeUserPasswordDialog = ({ userId }: Props) => {
   });
 
   const onSubmit = (data: FormValues) => {
-    console.log("data", data);
-
     toaster.promise(
       /* promise */ mutateAsync({ id: userId, newPassword: data.password }),
       {
