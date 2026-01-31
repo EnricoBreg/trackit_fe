@@ -1,15 +1,17 @@
 import type { BackendErrorResponse, FetchResponse } from "@/api/responses";
-import type User from "@/domain/entities/User";
+import type ProjectMember from "@/domain/entities/ProjectMember";
 import type { UserQuery } from "@/hooks/stores/useUserQueryStore";
 import ApiClient from "@/services/api-client";
 import { infiniteQueryOptions } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
 const projectMembersQueryOptions = (projectId: string, query: UserQuery) => {
-  const apiClient = new ApiClient<User>(`/projects/${projectId}/members`);
+  const apiClient = new ApiClient<ProjectMember>(
+    `/projects/${projectId}/members`,
+  );
 
   return infiniteQueryOptions<
-    FetchResponse<User>,
+    FetchResponse<ProjectMember>,
     AxiosError<BackendErrorResponse>
   >({
     queryKey: [`members/${projectId}`, query],

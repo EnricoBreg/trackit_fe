@@ -57,25 +57,25 @@ const MembersTab = () => {
 
           {data?.pages.map((page, index) => (
             <React.Fragment key={index}>
-              {page.results.map((member) => (
-                <Card.Root key={member.id} variant="outline">
+              {page.results.map(({ user, role }) => (
+                <Card.Root key={user.id} variant="outline">
                   <Card.Body>
                     <HStack justify="space-between">
                       <HStack gap={4}>
-                        <UserAvatar name={getUserDisplayName(member)} />
+                        <UserAvatar name={getUserDisplayName(user)} />
                         <VStack align="start" gap={1}>
                           <Text fontWeight="semibold" fontSize="md">
-                            {getUserDisplayName(member)}
+                            {getUserDisplayName(user)}
                           </Text>
                           <Text color="gray.600" fontSize="sm">
-                            {"member.role"}
+                            {role.displayName}
                           </Text>
                         </VStack>
                       </HStack>
 
                       <HStack gap={2} color="gray.500">
                         <FiMail />
-                        <Text fontSize="sm">{member.email}</Text>
+                        <Text fontSize="sm">{user.email}</Text>
                       </HStack>
                     </HStack>
                   </Card.Body>
