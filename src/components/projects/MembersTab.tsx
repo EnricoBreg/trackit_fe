@@ -1,12 +1,9 @@
 import useProjectMembers from "@/hooks/useProjectMembers";
-import useAppTranslation from "@/hooks/useTranslation";
-import { getUserDisplayName } from "@/utils/users-utils";
-import { Box, Card, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Box, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useParams } from "@tanstack/react-router";
 import React from "react";
-import { FiMail } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
-import UserAvatar from "../UserAvatar";
+import MemberCard from "./MemberCard";
 import MemberFormDialog from "./MemberFormDialog";
 
 /**
@@ -18,7 +15,6 @@ const MembersTab = () => {
   const { projectId } = useParams({ strict: false });
   const { data, error, isLoading, fetchNextPage, hasNextPage } =
     useProjectMembers(projectId!);
-  const { t } = useAppTranslation();
 
   if (error)
     return <Text>{error.response?.data.message ?? error.message}</Text>;
@@ -30,15 +26,7 @@ const MembersTab = () => {
     <Box>
       {/* CTA primaria */}
       {/* TODO: fare form con un semplice dialog? */}
-      {/* <Link
-        to="/app/projects/$projectId/members/new"
-        params={{ projectId: projectId! }}
-      >
-        <Button colorScheme="blue" size="md" mb={6}>
-          <FiPlus />
-          {t("membri.aggiungiNuovo")}
-        </Button>
-      </Link> */}
+
       <MemberFormDialog projectId={projectId!} />
 
       {/* Lista membri */}
@@ -53,29 +41,8 @@ const MembersTab = () => {
 
           {data?.pages.map((page, index) => (
             <React.Fragment key={index}>
-              {page.results.map(({ user, role }) => (
-                <Card.Root key={user.id} variant="outline">
-                  <Card.Body>
-                    <HStack justify="space-between">
-                      <HStack gap={4}>
-                        <UserAvatar name={getUserDisplayName(user)} />
-                        <VStack align="start" gap={1}>
-                          <Text fontWeight="semibold" fontSize="md">
-                            {getUserDisplayName(user)}
-                          </Text>
-                          <Text color="gray.600" fontSize="sm">
-                            {role.displayName}
-                          </Text>
-                        </VStack>
-                      </HStack>
-
-                      <HStack gap={2} color="gray.500">
-                        <FiMail />
-                        <Text fontSize="sm">{user.email}</Text>
-                      </HStack>
-                    </HStack>
-                  </Card.Body>
-                </Card.Root>
+              {page.results.map((member) => (
+                <MemberCard member={member} />
               ))}
             </React.Fragment>
           ))}

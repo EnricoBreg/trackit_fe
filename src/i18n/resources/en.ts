@@ -12,6 +12,7 @@ const en = {
     modifica: "Edit",
     elimina: "Delete",
     ricercaPlaceholder: "Search...",
+    rimuovi: "Remove",
     selezionaUtente: "Utente",
     selezionaRuolo: "Role",
     seiSicuro: "Are you sure?",
@@ -91,6 +92,7 @@ const en = {
     },
     membri: {
       aggiungiNuovo: "Add new member",
+      vaiAlProfilo: "Go to profile",
     },
     task: {
       stato: {

@@ -12,6 +12,7 @@ const it = {
     modifica: "Modifica",
     elimina: "Elimina",
     ricercaPlaceholder: "Ricerca...",
+    rimuovi: "Rimuovi",
     selezionaUtente: "Utente",
     selezionaRuolo: "Ruolo",
     seiSicuro: "Sei sicuro?",
@@ -91,6 +92,7 @@ const it = {
     },
     membri: {
       aggiungiNuovo: "Aggiungi nuovo membro",
+      vaiAlProfilo: "Vai al profilo",
     },
     task: {
       stato: {
