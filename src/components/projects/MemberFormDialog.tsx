@@ -8,12 +8,13 @@ import {
   Button,
   CloseButton,
   Dialog,
+  List,
   Portal,
   useDialog,
   VStack,
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import RoleSelect from "../RoleSelect";
@@ -50,6 +51,16 @@ const MemberFormDialog = ({ projectId }: Props) => {
     },
   });
 
+  const getErrorsList = (errors: Record<string, string>) => {
+    return (
+      <List.Root>
+        {Object.values(errors).map((error) => (
+          <List.Item key={error}>{error}</List.Item>
+        ))}
+      </List.Root>
+    );
+  };
+
   const { mutateAsync, isPending } = useMutation<
     ProjectMember,
     AxiosError<BackendErrorResponse>,
@@ -73,15 +84,25 @@ const MemberFormDialog = ({ projectId }: Props) => {
 
   const onSubmit = (data: FormValues) => {
     toaster.promise(
-      /* promise */ mutateAsync({ userId: data.userId!, roleId: data.roleId! }),
+      mutateAsync({ userId: data.userId!, roleId: data.roleId! }),
       {
         success: {
-          title: t("utenti.cambioPassword.successo"),
+          title: t("membri.aggiuntoConSuccesso"),
           closable: true,
         },
-        error: {
-          title: t("utenti.cambioPassword.errore"),
-          closable: true,
+        error: (err: unknown) => {
+          if (err instanceof AxiosError) {
+            return {
+              title: t("membri.nonAggiunto"),
+              description: getErrorsList(err.response?.data.errors),
+              closable: true,
+            };
+          }
+          return {
+            title: t("utenti.erroreSalvataggio.titolo"),
+            description: t("utenti.erroreSalvataggio.descrizione"),
+            closable: true,
+          };
         },
         loading: {
           title: t("caricamento.titolo"),

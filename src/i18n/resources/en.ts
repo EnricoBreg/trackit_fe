@@ -93,6 +93,8 @@ const en = {
     membri: {
       aggiungiNuovo: "Add new member",
       vaiAlProfilo: "Go to profile",
+      aggiuntoConSuccesso: "New member added successfully",
+      nonAggiunto: "New member not added",
     },
     task: {
       stato: {

@@ -93,6 +93,8 @@ const it = {
     membri: {
       aggiungiNuovo: "Aggiungi nuovo membro",
       vaiAlProfilo: "Vai al profilo",
+      aggiuntoConSuccesso: "Nuovo membro aggiunto con sucesso",
+      nonAggiunto: "Nuovo membro non aggiunto",
     },
     task: {
       stato: {
