@@ -116,6 +116,9 @@ const it = {
       scadenza: "Scadenza",
       assegnatoA: "Assegnata a",
       creaNuova: "Crea nuova task",
+      titolo: "Titolo",
+      descrizione: "Descrizione",
+      modificaTask: "Modifica informazioni task",
     },
     not_found: {
       pageNotFound: "Pagina non trovata",

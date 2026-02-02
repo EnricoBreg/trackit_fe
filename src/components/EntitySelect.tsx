@@ -54,7 +54,7 @@ type ItemToDetail<T> = (item: T) => string;
 
 interface EntitySelectProps<T> {
   items: T[]; // lista di items da mostrare (anche paginata)
-  caption: string; // Caption mostrata
+  caption?: string; // Caption mostrata
   isLoading?: boolean; // per mostrare lo spinner (opzionale)
   fetchNextPage?: () => void; // per infinite scroll (opzionale)
   hasNextPage?: boolean; // per infinite scroll (opzionale)

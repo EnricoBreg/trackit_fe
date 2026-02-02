@@ -3,10 +3,10 @@ import useAppTranslation from "@/hooks/useTranslation";
 import getFormattedDate from "@/utils/getFormattedDate";
 import { getTaskPriorityColor, getTaskStatusColor } from "@/utils/tasks-utils";
 
+import type Project from "@/domain/entities/Project";
 import {
   Badge,
   Box,
-  Button,
   Card,
   Flex,
   HStack,
@@ -15,11 +15,16 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Link, useParams } from "@tanstack/react-router";
+import { useParams } from "@tanstack/react-router";
 import React from "react";
-import { FiClock, FiPlus } from "react-icons/fi";
+import { FiClock } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UserAvatar from "../UserAvatar";
+import TaskFormDialog from "./TaskFormDialog";
+
+interface Props {
+  project: Project;
+}
 
 /**
  * Tab Task: lista task del progetto + pulsante creazione.
@@ -41,15 +46,16 @@ const TasksTab = () => {
   return (
     <Box>
       {/* CTA primaria */}
-      <Link
+      {/* <Link
         to="/app/projects/$projectId/tasks/new"
         params={{ projectId: projectId! }}
       >
-        <Button colorScheme="blue" size="md" mb={6}>
+        {<Button colorScheme="blue" size="md" mb={6}>
           <FiPlus />
           {t("task.creaNuova")}
-        </Button>
-      </Link>
+        </Button>}
+      </Link> */}
+      <TaskFormDialog projectId={projectId!} />
 
       {/* Lista task */}
 

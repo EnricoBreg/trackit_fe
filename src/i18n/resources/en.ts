@@ -116,6 +116,9 @@ const en = {
       scadenza: "Expirity",
       assegnatoA: "Assigned to",
       creaNuova: "Create new task",
+      titolo: "Title",
+      descrizione: "Description",
+      modificaTask: "edit task infos",
     },
     not_found: {
       pageNotFound: "Page Not Found",
