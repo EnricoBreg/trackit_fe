@@ -160,7 +160,12 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
 
                     {/* Data creazione */}
                     <GridItem>
-                      <DatePicker label="Data creazione" />
+                      <DatePicker
+                        label="Data creazione"
+                        name="dataCreazione"
+                        value={undefined}
+                        onChange={(date) => console.log("selezionata: ", date)}
+                      />
                     </GridItem>
                   </SimpleGrid>
                 </Dialog.Body>
