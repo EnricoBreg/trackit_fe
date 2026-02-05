@@ -13,10 +13,25 @@ import {
   SimpleGrid,
   useDialog,
 } from "@chakra-ui/react";
+import { Controller, useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import DatePicker from "../DatePicker";
 import EntitySelect from "../EntitySelect";
 import { Toaster } from "../ui/toaster";
+
+interface FormValues {
+  titolo: string;
+  descrizione: string;
+  stato: string;
+  priorita: string;
+  progresso?: number;
+  dataCreazione: Date;
+  dataAssegnazione?: Date;
+  dataInizioLavorazione?: Date;
+  dataScadenza?: Date;
+  dataChiusura?: Date;
+  assegnatario: number;
+}
 
 interface Props {
   projectId: string;
@@ -28,8 +43,17 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
     role: "dialog",
   });
   const { t } = useAppTranslation();
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>({});
 
-  console.log("projectId", projectId);
+  const onSubmit = (data: FormValues) => {
+    console.log("Data", data);
+  };
 
   const stati = [
     "DA_ASSEGNARE",
@@ -60,7 +84,7 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner>
-            <form onSubmit={() => console.log("submit")}>
+            <form onSubmit={handleSubmit((data) => onSubmit(data))}>
               <Dialog.Content
                 width={{ mdDown: "90vw", mdToLg: "80vw", lg: "70vw" }}
               >
@@ -77,7 +101,10 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                         <Field.Label>
                           {t("task.titolo")} <Field.RequiredIndicator />
                         </Field.Label>
-                        <Input placeholder="Enter your email" />
+                        <Input
+                          placeholder={t("task.titolo")}
+                          {...register("titolo")}
+                        />
                         <Field.ErrorText>
                           This field is required
                         </Field.ErrorText>
@@ -88,9 +115,12 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                     <GridItem colSpan={2}>
                       <Field.Root required>
                         <Field.Label>
-                          Descrizione <Field.RequiredIndicator />
+                          {t("task.descrizione")} <Field.RequiredIndicator />
                         </Field.Label>
-                        <Input placeholder="Enter your email" />
+                        <Input
+                          placeholder={t("task.descrizione")}
+                          {...register("descrizione")}
+                        />
                         <Field.ErrorText>
                           This field is required
                         </Field.ErrorText>
@@ -101,15 +131,21 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                     <GridItem colSpan={{ mdDown: 2 }}>
                       <Field.Root required>
                         <Field.Label>
-                          Stato <Field.RequiredIndicator />
+                          {t("task.stato.label")} <Field.RequiredIndicator />
                         </Field.Label>
                         <Box width="full">
-                          <EntitySelect
-                            items={stati}
-                            itemToString={(i) => t(`task.stato.${i}`)}
-                            itemToValue={(i) => i}
-                            onChange={(value) => console.log(value)}
-                            value={"DA_ASSEGNARE"}
+                          <Controller
+                            name="stato"
+                            control={control}
+                            render={({ field }) => (
+                              <EntitySelect
+                                items={stati}
+                                itemToString={(i) => t(`task.stato.${i}`)}
+                                itemToValue={(i) => i}
+                                onChange={field.onChange}
+                                value={field.name ?? "DA_ASSEGNARE"}
+                              />
+                            )}
                           />
                         </Box>
                         <Field.ErrorText>
@@ -122,15 +158,21 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                     <GridItem colSpan={{ mdDown: 2 }}>
                       <Field.Root required>
                         <Field.Label>
-                          Priorita <Field.RequiredIndicator />
+                          {t("task.priorita.label")} <Field.RequiredIndicator />
                         </Field.Label>
                         <Box width="full">
-                          <EntitySelect
-                            items={priorita}
-                            itemToString={(i) => t(`task.priorita.${i}`)}
-                            itemToValue={(i) => i}
-                            onChange={(value) => console.log(value)}
-                            value={"MEDIA"}
+                          <Controller
+                            name="priorita"
+                            control={control}
+                            render={({ field }) => (
+                              <EntitySelect
+                                items={priorita}
+                                itemToString={(i) => t(`task.priorita.${i}`)}
+                                itemToValue={(i) => i}
+                                onChange={field.onChange}
+                                value={field.value ?? "MEDIA"}
+                              />
+                            )}
                           />
                         </Box>
                         <Field.ErrorText>
@@ -142,8 +184,9 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                     {/* Progresso */}
                     <GridItem>
                       <Field.Root>
-                        <Field.Label>Progresso</Field.Label>
+                        <Field.Label>{t("task.progresso")}</Field.Label>
                         <NumberInput.Root
+                          {...register("progresso")}
                           defaultValue="0"
                           min={0}
                           max={100}
@@ -160,11 +203,17 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
 
                     {/* Data creazione */}
                     <GridItem>
-                      <DatePicker
-                        label="Data creazione"
+                      <Controller
                         name="dataCreazione"
-                        value={undefined}
-                        onChange={(date) => console.log("selezionata: ", date)}
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            label="Data creazione"
+                            name="dataCreazione"
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                        )}
                       />
                     </GridItem>
                   </SimpleGrid>

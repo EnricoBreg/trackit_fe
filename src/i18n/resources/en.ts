@@ -18,6 +18,8 @@ const en = {
     seiSicuro: "Are you sure?",
     nonCorrisponde: "Doesn't match",
     caricamento: { titolo: "Loading...", descrizione: "Please wait" },
+    selezionaUnaData: "Select a date...",
+    cancella: "Cancel",
     login: {
       welcomeToTrackIt: "Welcome to TrackIT. Sign in",
       username: "Username",
@@ -98,6 +100,7 @@ const en = {
     },
     task: {
       stato: {
+        label: "Status",
         DA_ASSEGNARE: "To be assigned",
         ASSEGNATO: "Assigned",
         IN_LAVORAZIONE: "In progress",
@@ -107,6 +110,7 @@ const en = {
         ANNULLATO: "Cancelled",
       },
       priorita: {
+        label: "Priority",
         BASSA: "Low",
         MEDIO_BASSA: "Medium-Low",
         MEDIA: "Medium",
@@ -118,12 +122,13 @@ const en = {
       creaNuova: "Create new task",
       titolo: "Title",
       descrizione: "Description",
-      modificaTask: "edit task infos",
+      progresso: "Progress",
+      modificaTask: "Edit task infos",
     },
     not_found: {
       pageNotFound: "Page Not Found",
       message:
-        "Sorry, the page you’re looking for doesn’t exist or may have been moved. Please check the URL or return to the homepage.",
+        "Sorry, the page you're looking for doesn't exist or may have been moved. Please check the URL or return to the homepage.",
       ritornaAllaHome: "Go Back Home",
     },
     forbidden: {

@@ -13,7 +13,7 @@ import { useState } from "react";
 import { DayPicker, type DayPickerLocale } from "react-day-picker";
 import { es, it } from "react-day-picker/locale";
 import "react-day-picker/style.css";
-import { LuCalendar } from "react-icons/lu";
+import { LuCalendar, LuTrash } from "react-icons/lu";
 
 interface Props {
   label: string;
@@ -67,7 +67,7 @@ const DatePicker = ({
               name={name}
               cursor={"pointer"}
               value={selected ? selected?.toLocaleString() : ""}
-              placeholder={placeholder ?? "Seleziona una data..."}
+              placeholder={placeholder ?? t("selezionaUnaData")}
             />
           </InputGroup>
         </Popover.Trigger>
@@ -91,7 +91,8 @@ const DatePicker = ({
                   variant={"surface"}
                   onClick={() => handleSelection(undefined)}
                 >
-                  Clear
+                  <LuTrash />
+                  {t("cancella")}
                 </Button>
               </Popover.Body>
             </Popover.Content>

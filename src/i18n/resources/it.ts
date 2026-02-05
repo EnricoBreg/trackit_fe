@@ -18,6 +18,8 @@ const it = {
     seiSicuro: "Sei sicuro?",
     nonCorrisponde: "Non corrisponde",
     caricamento: { titolo: "Caricamento...", descrizione: "Prego attendere" },
+    selezionaUnaData: "Seleziona una data...",
+    cancella: "Cancella",
     login: {
       welcomeToTrackIt: "Benvenuto in TrackIt. Effettua il login",
       username: "Nome utente",
@@ -89,6 +91,9 @@ const it = {
       membri: "Membri",
       tasks: "Task",
       commenti: "Commenti",
+      titolo: "Titolo",
+      descrizione: "Descrizione",
+      modificaTask: "Edit task infos",
     },
     membri: {
       aggiungiNuovo: "Aggiungi nuovo membro",
@@ -98,6 +103,7 @@ const it = {
     },
     task: {
       stato: {
+        label: "Stato",
         DA_ASSEGNARE: "Da assegnare",
         ASSEGNATO: "Assegnata",
         IN_LAVORAZIONE: "In lavorazione",
@@ -107,6 +113,7 @@ const it = {
         ANNULLATO: "Annullata",
       },
       priorita: {
+        label: "Priorità",
         BASSA: "Bassa",
         MEDIO_BASSA: "Medio-Bassa",
         MEDIA: "Media",
@@ -118,6 +125,7 @@ const it = {
       creaNuova: "Crea nuova task",
       titolo: "Titolo",
       descrizione: "Descrizione",
+      progresso: "Progresso",
       modificaTask: "Modifica informazioni task",
     },
     not_found: {
