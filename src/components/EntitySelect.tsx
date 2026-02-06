@@ -35,6 +35,7 @@ import {
   Box,
   Center,
   createListCollection,
+  HStack,
   Input,
   InputGroup,
   Portal,
@@ -51,37 +52,86 @@ import InfiniteScroll from "react-infinite-scroll-component";
 type ItemToString<T> = (item: T) => string;
 type ItemToValue<T> = (item: T) => string;
 type ItemToDetail<T> = (item: T) => string;
+type RenderItemSlot<T> = (item: T) => React.ReactNode;
 
 interface EntitySelectProps<T> {
-  items: T[]; // lista di items da mostrare (anche paginata)
-  caption?: string; // Caption mostrata
-  isLoading?: boolean; // per mostrare lo spinner (opzionale)
-  fetchNextPage?: () => void; // per infinite scroll (opzionale)
-  hasNextPage?: boolean; // per infinite scroll (opzionale)
-  itemToString: ItemToString<T>; // come viene mostrato il testo nel select
-  itemToValue: ItemToValue<T>; // come viene identificato il valore
-  itemToDetail?: ItemToDetail<T>; // come viene mostrato il valore nel dettaglio (opzionale)
-  value?: number | string; // valore selezionato, solitamente id (di tipo stringa) della entity (opzionale)
-  onChange: (value: number | string) => void; // callback di selezione (opzionale)
-  onSearchChange?: (value: string) => void; // callback usata quando cambia il valore nella box di ricerca (opzionale)
-  placeholder?: string; // placeholder che viene mostrato (opzionale)
-  forwardRef?: React.RefObject<HTMLElement>; // usata per renderizzare il Portal dentro un altro Portal
+  /* ======================
+   * Data source
+   * ====================== */
+  items: readonly T[]; // lista di items da mostrare (anche paginata)
+
+  /* ======================
+   * Mapping item → UI / value
+   * ====================== */
+  itemToString: ItemToString<T>; // testo mostrato nel select
+  itemToValue: ItemToValue<T>; // identificatore dell’item
+  itemToDetail?: ItemToDetail<T>; // dettaglio secondario (opzionale)
+
+  /* ======================
+   * Rendering slots
+   * ====================== */
+  renderItemStart?: RenderItemSlot<T>; // elemento custom a sinistra dell’item
+  renderItemEnd?: RenderItemSlot<T>; // elemento custom a destra dell’item
+
+  /* ======================
+   * Selection & control
+   * ====================== */
+  value?: number | string | T; // valore selezionato
+  onChange: (value: number | string) => void; // callback di selezione
+
+  /* ======================
+   * Search & pagination
+   * ====================== */
+  onSearchChange?: (value: string) => void; // ricerca
+  fetchNextPage?: () => void; // infinite scroll
+  hasNextPage?: boolean;
+
+  /* ======================
+   * UI state
+   * ====================== */
+  isLoading?: boolean; // mostra spinner
+  caption?: string; // label del select
+  placeholder?: string; // placeholder
 }
 
 function EntitySelect<T>({
+  /* ======================
+   * Data source
+   * ====================== */
   items,
-  caption,
-  isLoading,
-  fetchNextPage = () => {},
-  hasNextPage,
+
+  /* ======================
+   * Mapping item → UI / value
+   * ====================== */
   itemToString,
   itemToValue,
   itemToDetail,
+
+  /* ======================
+   * Rendering slots
+   * ====================== */
+  renderItemStart,
+  renderItemEnd,
+
+  /* ======================
+   * Selection & control
+   * ====================== */
   value,
   onChange,
+
+  /* ======================
+   * Search & pagination
+   * ====================== */
   onSearchChange,
+  fetchNextPage = () => {},
+  hasNextPage,
+
+  /* ======================
+   * UI state
+   * ====================== */
+  isLoading,
+  caption,
   placeholder,
-  forwardRef,
 }: EntitySelectProps<T>) {
   const { t } = useAppTranslation();
 
@@ -123,7 +173,9 @@ function EntitySelect<T>({
         <Select.Label>{caption}</Select.Label>
         <Select.Control>
           <Select.Trigger>
-            <Select.ValueText placeholder={placeholder ?? "-"} />
+            <HStack>
+              <Select.ValueText placeholder={placeholder ?? ""} />
+            </HStack>
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.ClearTrigger />
@@ -170,13 +222,25 @@ function EntitySelect<T>({
                   )}
                   {collection.items.map((item) => (
                     <Select.Item item={item} key={itemToValue(item)}>
-                      <Stack gap="0">
-                        <Select.ItemText>{itemToString(item)}</Select.ItemText>
-                        <Span color="fg.muted" textStyle="xs">
-                          {itemToDetail ? itemToDetail(item) : ""}
-                        </Span>
-                      </Stack>
-                      <Select.ItemIndicator />
+                      <HStack gap={2}>
+                        {renderItemStart && (
+                          <Box flexShrink={0}>{renderItemStart(item)}</Box>
+                        )}
+
+                        <Stack gap="0">
+                          <Select.ItemText>
+                            {itemToString(item)}
+                          </Select.ItemText>
+                          <Span color="fg.muted" textStyle="xs">
+                            {itemToDetail ? itemToDetail(item) : ""}
+                          </Span>
+                        </Stack>
+                        <Select.ItemIndicator />
+
+                        {renderItemEnd && (
+                          <Box flexShrink={0}>{renderItemEnd(item)}</Box>
+                        )}
+                      </HStack>
                     </Select.Item>
                   ))}
                 </InfiniteScroll>

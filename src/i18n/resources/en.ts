@@ -39,6 +39,8 @@ const en = {
       progetti: "Projects",
     },
     utenti: {
+      seleziona: "Select an user...",
+      caption: "User",
       cambioPassword: {
         caption: "Reset password",
         successo: "User password has been changed🔐",
@@ -124,6 +126,10 @@ const en = {
       descrizione: "Description",
       progresso: "Progress",
       modificaTask: "Edit task infos",
+      dataCreazione: "Created at",
+      dataInizioLavorazione: "Work stated at",
+      dataScadenza: "Expire at",
+      dataChiusura: "Closing date",
     },
     not_found: {
       pageNotFound: "Page Not Found",
