@@ -167,15 +167,13 @@ function EntitySelect<T>({
         size="md"
         width="full"
         defaultValue={[value?.toString()!!]}
-        onValueChange={(val) => handleOnChange(val)}
+        onValueChange={(value) => handleOnChange(value)}
       >
         <Select.HiddenSelect />
         <Select.Label>{caption}</Select.Label>
         <Select.Control>
           <Select.Trigger>
-            <HStack>
-              <Select.ValueText placeholder={placeholder ?? ""} />
-            </HStack>
+            <Select.ValueText placeholder={placeholder ?? ""} />
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.ClearTrigger />
