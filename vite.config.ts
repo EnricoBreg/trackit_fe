@@ -22,9 +22,11 @@ export default defineConfig({
     react(),
   ],
   server: {
+    host: "0.0.0.0",
+    port: 5173,
     https: {
-      key: fs.readFileSync("./certs/localhost+1-key.pem"),
-      cert: fs.readFileSync("./certs/localhost+1.pem"),
+      key: fs.readFileSync("./certs/192.168.1.60+2-key.pem"),
+      cert: fs.readFileSync("./certs/192.168.1.60+2.pem"),
     },
   },
 });
