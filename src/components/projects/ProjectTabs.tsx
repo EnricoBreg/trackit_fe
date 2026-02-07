@@ -34,11 +34,12 @@ const ProjectTabs = ({ projectId }: Props) => {
   return (
     <Box borderBottomWidth="1px" borderColor="gray.200">
       <HStack gap={0}>
-        {tabs.map((tab) => {
+        {tabs.map((tab, index) => {
           const isActive = matchRoute({ to: tab.path });
 
           return (
             <Link
+              key={index}
               to={tab.path}
               params={{ projectId: projectId }}
               style={{ textDecoration: "none" }}
