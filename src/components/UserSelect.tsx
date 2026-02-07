@@ -4,6 +4,7 @@ import useAppTranslation from "@/hooks/useTranslation";
 import useUsers from "@/hooks/useUsers";
 import React from "react";
 import EntitySelect from "./EntitySelect";
+import UserAvatar from "./UserAvatar";
 
 interface UserSelectProps {
   value?: number | string;
@@ -29,7 +30,8 @@ const UserSelect = ({
 
   return (
     <EntitySelect
-      caption={caption ?? t("selezionaUtente")}
+      caption={caption ?? t("utenti.caption")}
+      placeholder={t("utenti.seleziona")}
       items={users}
       isLoading={isLoading}
       fetchNextPage={fetchNextPage}
@@ -40,6 +42,11 @@ const UserSelect = ({
       value={value}
       onChange={onChange}
       onSearchChange={(searchText) => debouncedSearchText(searchText)}
+      renderItemStart={(u) => {
+        const nominativo =
+          u.nome && u.cognome ? `${u.nome} ${u.cognome}` : `${u.username}`;
+        return <UserAvatar name={nominativo} size="sm" />;
+      }}
     />
   );
 };
