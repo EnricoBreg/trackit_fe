@@ -1,4 +1,5 @@
 import useAppTranslation from "@/hooks/useTranslation";
+import formatDateByLocale from "@/utils/formatDateByLocale";
 import {
   Button,
   Field,
@@ -9,7 +10,6 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import type { i18n } from "i18next";
-import { useState } from "react";
 import { DayPicker, type DayPickerLocale } from "react-day-picker";
 import { es, it } from "react-day-picker/locale";
 import "react-day-picker/style.css";
@@ -19,12 +19,16 @@ interface Props {
   label: string;
   name: string;
   placeholder?: string;
+  helperText?: string;
   required?: boolean;
   showOutsideDays?: boolean;
   fixedWeeks?: boolean;
   animate?: boolean;
   value?: Date;
   onChange: (date: Date | undefined) => void;
+
+  error?: string;
+  isInvalid?: boolean;
 }
 
 const DatePicker = ({
@@ -37,13 +41,13 @@ const DatePicker = ({
   showOutsideDays = false,
   fixedWeeks = true,
   animate = true,
+  helperText,
+  error,
+  isInvalid,
 }: Props) => {
-  const [selected, setSelected] = useState<Date | undefined>(value);
-
   const { t, i18n } = useAppTranslation();
 
   const handleSelection = (date: Date | undefined) => {
-    setSelected(date);
     onChange(date);
   };
 
@@ -54,7 +58,7 @@ const DatePicker = ({
   );
 
   return (
-    <Field.Root required={required}>
+    <Field.Root required={required} invalid={isInvalid}>
       <Field.Label>
         {label} <Field.RequiredIndicator />
       </Field.Label>
@@ -66,7 +70,7 @@ const DatePicker = ({
               readOnly
               name={name}
               cursor={"pointer"}
-              value={selected ? selected?.toLocaleString() : ""}
+              value={value ? formatDateByLocale(value, i18n.language) : ""}
               placeholder={placeholder ?? t("selezionaUnaData")}
             />
           </InputGroup>
@@ -82,7 +86,7 @@ const DatePicker = ({
                   fixedWeeks={fixedWeeks}
                   animate={animate}
                   mode="single"
-                  selected={selected ?? undefined}
+                  selected={value ?? undefined}
                   onSelect={handleSelection}
                   locale={getDayPickerLocale(i18n)}
                 />
@@ -100,8 +104,8 @@ const DatePicker = ({
         </Portal>
       </Popover.Root>
 
-      <Field.HelperText />
-      <Field.ErrorText />
+      {helperText && <Field.HelperText>{helperText}</Field.HelperText>}
+      {error && <Field.ErrorText>{error}</Field.ErrorText>}
     </Field.Root>
   );
 };
