@@ -19,23 +19,32 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useMatchRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { FaProjectDiagram, FaRegQuestionCircle, FaUsers } from "react-icons/fa";
 import { FaBars, FaXmark } from "react-icons/fa6";
+import { MdDashboard } from "react-icons/md";
 import { RxExit } from "react-icons/rx";
+import IconContainer from "./IconContainer";
 
 interface MainMenuLinkShape {
   to: string;
   name: string;
+  icon: React.ReactNode;
 }
 
 const MainMenu = () => {
   const { t } = useAppTranslation("main_menu");
 
   const links: MainMenuLinkShape[] = [
-    { to: "/app/dashboard", name: t("home") },
-    { to: "/app/users", name: t("utenti") },
-    { to: "/app/projects", name: t("progetti") },
-    { to: "/about", name: t("about") },
+    {
+      to: "/app/dashboard",
+      name: t("home"),
+      icon: <MdDashboard />,
+    },
+    { to: "/app/users", name: t("utenti"), icon: <FaUsers /> },
+    { to: "/app/projects", name: t("progetti"), icon: <FaProjectDiagram /> },
+    { to: "/about", name: t("about"), icon: <FaRegQuestionCircle /> },
   ];
 
   const handleLogout = () => authService.logout();
@@ -49,6 +58,8 @@ const MainMenu = () => {
     if (user.nome && user.cognome) nominativo = user.nome + " " + user.cognome;
     else nominativo = user.username;
   }
+
+  const matchRoute = useMatchRoute();
 
   return (
     <Drawer.Root
@@ -77,15 +88,27 @@ const MainMenu = () => {
                 height="full"
               >
                 <VStack alignItems="start" fontSize="md" gap={4}>
-                  {links.map((link, index) => (
-                    <NavLink
-                      to={link.to}
-                      key={index}
-                      callbackFn={() => setOpen(!open)}
-                    >
-                      {link.name}
-                    </NavLink>
-                  ))}
+                  {links.map((link, index) => {
+                    const isActive = matchRoute({ to: link.to }) as boolean;
+
+                    return (
+                      <NavLink
+                        to={link.to}
+                        key={index}
+                        callbackFn={() => setOpen(!open)}
+                        active={isActive}
+                      >
+                        <HStack
+                          gap={2}
+                          alignItems={"center"}
+                          justifyContent={"start"}
+                        >
+                          <IconContainer>{link.icon}</IconContainer>
+                          {link.name}
+                        </HStack>
+                      </NavLink>
+                    );
+                  })}
                 </VStack>
 
                 <HStack justifyContent="space-between" alignItems="center">
