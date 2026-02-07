@@ -121,6 +121,7 @@ const en = {
       },
       scadenza: "Expirity",
       assegnatoA: "Assigned to",
+      assegnaA: "Assign to",
       creaNuova: "Create new task",
       titolo: "Title",
       descrizione: "Description",

@@ -124,6 +124,7 @@ const it = {
       },
       scadenza: "Scadenza",
       assegnatoA: "Assegnata a",
+      assegnaA: "Assegna a",
       creaNuova: "Crea nuova task",
       titolo: "Titolo",
       descrizione: "Descrizione",
