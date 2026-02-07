@@ -1,4 +1,11 @@
 import type Task from "@/domain/entities/Task";
+import {
+  TaskPriorities,
+  TaskStatuses,
+  type TaskPriority,
+  type TaskStatus,
+} from "@/domain/entities/Task";
+import { taskFormSchema } from "@/domain/features/users/task-form.schema";
 import useAppTranslation from "@/hooks/useTranslation";
 import {
   Box,
@@ -12,12 +19,15 @@ import {
   Portal,
   SimpleGrid,
   useDialog,
+  VStack,
 } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import DatePicker from "../DatePicker";
 import EntitySelect from "../EntitySelect";
 import { Toaster } from "../ui/toaster";
+import UserSelect from "../UserSelect";
 
 interface FormValues {
   titolo: string;
@@ -28,9 +38,9 @@ interface FormValues {
   dataCreazione: Date;
   dataAssegnazione?: Date;
   dataInizioLavorazione?: Date;
-  dataScadenza?: Date;
+  dataScadenza: Date;
   dataChiusura?: Date;
-  assegnatario: number;
+  assegnatario?: number;
 }
 
 interface Props {
@@ -48,24 +58,18 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm<FormValues>({});
+    formState: { errors, isValid },
+  } = useForm<FormValues>({
+    resolver: zodResolver(taskFormSchema),
+    defaultValues: {
+      stato: task?.stato ?? TaskStatuses[0],
+      priorita: task?.priorita ?? TaskPriorities[2],
+    },
+  });
 
   const onSubmit = (data: FormValues) => {
     console.log("Data", data);
   };
-
-  const stati = [
-    "DA_ASSEGNARE",
-    "ASSEGNATO",
-    "IN_LAVORAZIONE",
-    "COMPLETATA",
-    "STAND_BY",
-    "BLOCCATO",
-    "ANNULLATO",
-  ];
-
-  const priorita = ["BASSA", "MEDIO_BASSA", "MEDIA", "MEDIO_ALTA", "ALTA"];
 
   return (
     <>
@@ -97,7 +101,7 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                   <SimpleGrid gap={6} columns={{ base: 1, md: 2 }}>
                     {/* Titolo */}
                     <GridItem colSpan={{ mdDown: 2 }}>
-                      <Field.Root required>
+                      <Field.Root required invalid={!!errors.titolo}>
                         <Field.Label>
                           {t("task.titolo")} <Field.RequiredIndicator />
                         </Field.Label>
@@ -106,14 +110,14 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                           {...register("titolo")}
                         />
                         <Field.ErrorText>
-                          This field is required
+                          {errors.titolo?.message}
                         </Field.ErrorText>
                       </Field.Root>
                     </GridItem>
 
                     {/* Descrizione */}
                     <GridItem colSpan={2}>
-                      <Field.Root required>
+                      <Field.Root required invalid={!!errors.descrizione}>
                         <Field.Label>
                           {t("task.descrizione")} <Field.RequiredIndicator />
                         </Field.Label>
@@ -122,14 +126,14 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                           {...register("descrizione")}
                         />
                         <Field.ErrorText>
-                          This field is required
+                          {errors.descrizione?.message}
                         </Field.ErrorText>
                       </Field.Root>
                     </GridItem>
 
                     {/* Stato */}
                     <GridItem colSpan={{ mdDown: 2 }}>
-                      <Field.Root required>
+                      <Field.Root required invalid={!!errors.stato}>
                         <Field.Label>
                           {t("task.stato.label")} <Field.RequiredIndicator />
                         </Field.Label>
@@ -138,25 +142,28 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                             name="stato"
                             control={control}
                             render={({ field }) => (
-                              <EntitySelect
-                                items={stati}
+                              <EntitySelect<TaskStatus>
+                                items={TaskStatuses}
                                 itemToString={(i) => t(`task.stato.${i}`)}
                                 itemToValue={(i) => i}
-                                onChange={field.onChange}
-                                value={field.name ?? "DA_ASSEGNARE"}
+                                onChange={(value) => {
+                                  console.log("selezionato", value);
+                                  field.onChange(value);
+                                }}
+                                value={field.value}
                               />
                             )}
                           />
                         </Box>
                         <Field.ErrorText>
-                          This field is required
+                          {errors.stato?.message}
                         </Field.ErrorText>
                       </Field.Root>
                     </GridItem>
 
                     {/* Priorità */}
                     <GridItem colSpan={{ mdDown: 2 }}>
-                      <Field.Root required>
+                      <Field.Root required invalid={!!errors.priorita}>
                         <Field.Label>
                           {t("task.priorita.label")} <Field.RequiredIndicator />
                         </Field.Label>
@@ -165,25 +172,47 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                             name="priorita"
                             control={control}
                             render={({ field }) => (
-                              <EntitySelect
-                                items={priorita}
+                              <EntitySelect<TaskPriority>
+                                items={TaskPriorities}
                                 itemToString={(i) => t(`task.priorita.${i}`)}
                                 itemToValue={(i) => i}
                                 onChange={field.onChange}
-                                value={field.value ?? "MEDIA"}
+                                value={field.value}
                               />
                             )}
                           />
                         </Box>
                         <Field.ErrorText>
-                          This field is required
+                          {errors.priorita?.message}
+                        </Field.ErrorText>
+                      </Field.Root>
+                    </GridItem>
+
+                    {/* Assegnatario */}
+                    <GridItem colSpan={{ mdDown: 2 }}>
+                      <Field.Root invalid={!!errors.assegnatario}>
+                        <Box width="full">
+                          <Controller
+                            control={control}
+                            name="assegnatario"
+                            render={({ field }) => (
+                              <UserSelect
+                                caption={t("task.assegnaA")}
+                                value={field.value}
+                                onChange={field.onChange}
+                              />
+                            )}
+                          />
+                        </Box>
+                        <Field.ErrorText>
+                          {errors.assegnatario?.message}
                         </Field.ErrorText>
                       </Field.Root>
                     </GridItem>
 
                     {/* Progresso */}
                     <GridItem>
-                      <Field.Root>
+                      <Field.Root invalid={!!errors.progresso}>
                         <Field.Label>{t("task.progresso")}</Field.Label>
                         <NumberInput.Root
                           {...register("progresso")}
@@ -197,24 +226,81 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                           <NumberInput.Control />
                           <NumberInput.Input />
                         </NumberInput.Root>
-                        <Field.ErrorText>The entry is invalid</Field.ErrorText>
+                        <Field.ErrorText>
+                          {errors.progresso?.message}
+                        </Field.ErrorText>
                       </Field.Root>
                     </GridItem>
 
                     {/* Data creazione */}
-                    <GridItem>
-                      <Controller
-                        name="dataCreazione"
-                        control={control}
-                        render={({ field }) => (
-                          <DatePicker
-                            label="Data creazione"
-                            name="dataCreazione"
-                            value={field.value}
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
+                    <GridItem colSpan={2}>
+                      <VStack width={{ mdDown: "100%", base: "1/2" }} gap={2}>
+                        {/* Data creazione */}
+                        <Controller
+                          name="dataCreazione"
+                          control={control}
+                          render={({ field, fieldState }) => (
+                            <DatePicker
+                              label={t("task.dataCreazione")}
+                              name="dataCreazione"
+                              value={field.value}
+                              onChange={field.onChange}
+                              required
+                              isInvalid={!!fieldState.invalid}
+                              error={fieldState.error?.message}
+                            />
+                          )}
+                        />
+
+                        {/* Data inizio lavorazione */}
+                        <Controller
+                          name="dataInizioLavorazione"
+                          control={control}
+                          render={({ field, fieldState }) => (
+                            <DatePicker
+                              label={t("task.dataInizioLavorazione")}
+                              name="dataInizioLavorazione"
+                              value={field.value}
+                              onChange={field.onChange}
+                              isInvalid={!!fieldState.invalid}
+                              error={fieldState.error?.message}
+                            />
+                          )}
+                        />
+
+                        {/* Data Scadenza */}
+                        <Controller
+                          name="dataScadenza"
+                          control={control}
+                          render={({ field, fieldState }) => (
+                            <DatePicker
+                              label={t("task.dataScadenza")}
+                              name="dataScadenza"
+                              value={field.value}
+                              onChange={field.onChange}
+                              required
+                              isInvalid={!!fieldState.invalid}
+                              error={fieldState.error?.message}
+                            />
+                          )}
+                        />
+
+                        {/* Data chiusura */}
+                        <Controller
+                          name="dataChiusura"
+                          control={control}
+                          render={({ field, fieldState }) => (
+                            <DatePicker
+                              label={t("task.dataChiusura")}
+                              name="dataChiusura"
+                              value={field.value}
+                              onChange={field.onChange}
+                              isInvalid={!!fieldState.invalid}
+                              error={fieldState.error?.message}
+                            />
+                          )}
+                        />
+                      </VStack>
                     </GridItem>
                   </SimpleGrid>
                 </Dialog.Body>
@@ -222,7 +308,10 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                   <Dialog.ActionTrigger asChild>
                     <Button variant="outline">{t("annulla")}</Button>
                   </Dialog.ActionTrigger>
-                  <Button type="submit" /* loading={isPending} */>
+                  <Button
+                    type="submit"
+                    /* loading={ isPending } */ /* disabled={!isValid} */
+                  >
                     {t("salva")}
                   </Button>
                 </Dialog.Footer>
