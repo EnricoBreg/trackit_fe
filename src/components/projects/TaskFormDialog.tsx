@@ -5,7 +5,10 @@ import {
   type TaskPriority,
   type TaskStatus,
 } from "@/domain/entities/Task";
-import { taskFormSchema } from "@/domain/features/users/task-form.schema";
+import {
+  taskFormSchema,
+  type TaskFormValues,
+} from "@/domain/features/users/task-form.schema";
 import useAppTranslation from "@/hooks/useTranslation";
 import {
   Box,
@@ -21,27 +24,13 @@ import {
   useDialog,
   VStack,
 } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { Controller, useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import DatePicker from "../DatePicker";
 import EntitySelect from "../EntitySelect";
+import MemberSelect from "../MemberSelect";
 import { Toaster } from "../ui/toaster";
-import UserSelect from "../UserSelect";
-
-interface FormValues {
-  titolo: string;
-  descrizione: string;
-  stato: string;
-  priorita: string;
-  progresso?: number;
-  dataCreazione: Date;
-  dataAssegnazione?: Date;
-  dataInizioLavorazione?: Date;
-  dataScadenza: Date;
-  dataChiusura?: Date;
-  assegnatario?: number;
-}
 
 interface Props {
   projectId: string;
@@ -59,15 +48,18 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<FormValues>({
-    resolver: zodResolver(taskFormSchema),
+  } = useForm<TaskFormValues>({
+    resolver: standardSchemaResolver(taskFormSchema), // per evitare errore di assertion di Typescript
     defaultValues: {
       stato: task?.stato ?? TaskStatuses[0],
       priorita: task?.priorita ?? TaskPriorities[2],
+      dataCreazione: task?.dataCreazione
+        ? new Date(task?.dataCreazione!)
+        : new Date(),
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: TaskFormValues) => {
     console.log("Data", data);
   };
 
@@ -146,10 +138,7 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                                 items={TaskStatuses}
                                 itemToString={(i) => t(`task.stato.${i}`)}
                                 itemToValue={(i) => i}
-                                onChange={(value) => {
-                                  console.log("selezionato", value);
-                                  field.onChange(value);
-                                }}
+                                onChange={field.onChange}
                                 value={field.value}
                               />
                             )}
@@ -196,10 +185,11 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                             control={control}
                             name="assegnatario"
                             render={({ field }) => (
-                              <UserSelect
+                              <MemberSelect
                                 caption={t("task.assegnaA")}
                                 value={field.value}
-                                onChange={field.onChange}
+                                onChange={(value) => field.onChange(value)}
+                                projectId={projectId}
                               />
                             )}
                           />
@@ -216,14 +206,13 @@ const TaskFormDialog = ({ projectId, task }: Props) => {
                         <Field.Label>{t("task.progresso")}</Field.Label>
                         <NumberInput.Root
                           {...register("progresso")}
-                          defaultValue="0"
                           min={0}
                           max={100}
                           formatOptions={{
                             style: "percent",
                           }}
                         >
-                          <NumberInput.Control />
+                          {/* <NumberInput.Control /> */}
                           <NumberInput.Input />
                         </NumberInput.Root>
                         <Field.ErrorText>

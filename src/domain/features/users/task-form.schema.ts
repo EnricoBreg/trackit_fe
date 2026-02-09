@@ -10,11 +10,19 @@ export const taskFormSchema = z
       .min(10, t("task.validation.descrizioneNonValida", { min: 10 })),
     stato: z.string().nonempty(t("task.validation.statoNonValido")),
     priorita: z.string().nonempty(t("task.validation.prioritaNonValida")),
-    progresso: z
+    /* progresso: z
       .number(t("task.validation.valoreNonValido"))
       .min(0, t("task.validation.progressoMinimoNonValido"))
-      .max(100, t("task.validation.progressoMassimoNonValido"))
-      .optional(),
+      .max(100, t("task.validation.progressoMassimoNonValido"), */
+    progresso: z
+      .string()
+      .transform((val) => Number(val))
+      .pipe(
+        z
+          .number(t("task.validation.valoreNonValido"))
+          .min(0, t("task.validation.progressoMinimoNonValido"))
+          .max(100, t("task.validation.progressoMassimoNonValido")),
+      ),
     dataCreazione: z
       .date(t("task.validation.dataCreazioneNonValida"))
       .nonoptional(t("task.validation.dataCreazioneNonVuota")),
@@ -26,7 +34,7 @@ export const taskFormSchema = z
       .optional(),
     dataScadenza: z.date(t("task.validation.dataScadenzaNonValida")),
     dataChiusura: z.date(t("task.validation.dataChiusuraNonValida")).optional(),
-    assegnatario: z.number(t("task.validation.valoreNonAmmesso")).optional(),
+    assegnatario: z.string(t("task.validation.valoreNonValido")).optional(),
   })
   .superRefine(
     (
@@ -36,6 +44,7 @@ export const taskFormSchema = z
         dataCreazione,
         dataInizioLavorazione,
         dataChiusura,
+        dataScadenza,
         assegnatario,
       },
       ctx,
@@ -49,6 +58,18 @@ export const taskFormSchema = z
         });
       }
 
+      // dataScadenza deve essere dopo dataCreazione
+      if (dataScadenza < dataCreazione) {
+        ctx.addIssue({
+          code: "custom",
+          message: t("task.validation.intervalloTemporaleNonValido", {
+            start: t("task.dataCreazione"),
+            end: t("task.dataScadenza"),
+          }),
+          path: ["dataScadenza"],
+        });
+      }
+
       // dataAssegnazione inserita e dataCreazione successiva a dataAssegnazione
       if (dataAssegnazione && dataCreazione > dataAssegnazione) {
         ctx.addIssue({
@@ -57,7 +78,7 @@ export const taskFormSchema = z
             start: t("task.dataCreazione"),
             end: t("task.dataAssegnazione"),
           }),
-          path: ["dataAssegnazione", "dataCreazione"],
+          path: ["dataAssegnazione"],
         });
       }
 
@@ -69,7 +90,7 @@ export const taskFormSchema = z
             start: t("task.dataCreazione"),
             end: t("task.dataInizioLavorazione"),
           }),
-          path: ["dataInizioLavorazione", "dataCreazione"],
+          path: ["dataInizioLavorazione"],
         });
       }
 
@@ -81,7 +102,7 @@ export const taskFormSchema = z
             start: t("task.dataCreazione"),
             end: t("task.dataChiusura"),
           }),
-          path: ["dataChiusura", "dataCreazione"],
+          path: ["dataChiusura"],
         });
       }
 
@@ -97,7 +118,7 @@ export const taskFormSchema = z
             start: t("task.dataAssegnazione"),
             end: t("task.dataInizioLavorazione"),
           }),
-          path: ["dataInizioLavorazione", "dataAssegnazione"],
+          path: ["dataInizioLavorazione"],
         });
       }
 
@@ -113,10 +134,10 @@ export const taskFormSchema = z
             start: t("task.dataInizioLavorazione"),
             end: t("task.dataChiusura"),
           }),
-          path: ["dataInizioLavorazione", "dataChiusura"],
+          path: ["dataInizioLavorazione"],
         });
       }
     },
   );
 
-export type TaskFormSchema = z.infer<typeof taskFormSchema>;
+export type TaskFormValues = z.output<typeof taskFormSchema>;

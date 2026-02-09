@@ -28,12 +28,12 @@ export default interface Task {
   stato: TaskStatus;
   priorita: TaskPriority;
   progresso: number;
-  dataCreazione: string; // ISO date-time
-  dataAssegnazione: string | null;
-  dataInizioLavorazione: string | null;
-  dataUltimaModifica: string;
-  dataScadenza: string | null;
-  dataChiusura: string | null;
+  dataCreazione: Date | string; // ISO date-time
+  dataAssegnazione: Date | string | null;
+  dataInizioLavorazione: Date | string | null;
+  dataUltimaModifica: Date | string;
+  dataScadenza: Date | string;
+  dataChiusura: Date | string | null;
   assegnatario: User;
   reporter: User;
   projectId: string; // UUID
