@@ -1,11 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 
-interface ProjectCardContainerProps {
+interface GenericCardContainerProps {
   children: React.ReactNode;
 }
 
-const ProjectCardContainer = ({ children }: ProjectCardContainerProps) => {
+const GenericCardContainer = ({ children }: GenericCardContainerProps) => {
   return (
     <Box borderRadius="md" overflow="hidden">
       {children}
@@ -13,4 +13,4 @@ const ProjectCardContainer = ({ children }: ProjectCardContainerProps) => {
   );
 };
 
-export default ProjectCardContainer;
+export default GenericCardContainer;

@@ -1,25 +1,13 @@
 import useTasks from "@/hooks/useTasks";
-import useAppTranslation from "@/hooks/useTranslation";
-import getFormattedDate from "@/utils/getFormattedDate";
-import { getTaskPriorityColor, getTaskStatusColor } from "@/utils/tasks-utils";
 
 import type Project from "@/domain/entities/Project";
-import {
-  Badge,
-  Box,
-  Card,
-  Flex,
-  HStack,
-  Progress,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { useParams } from "@tanstack/react-router";
 import React from "react";
-import { FiClock } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
-import UserAvatar from "../UserAvatar";
+import GenericCardContainer from "../GenericCardContainer";
+import TaskCard from "./TaskCard";
+import TaskCardSkeleton from "./TaskCardSkeleton";
 import TaskFormDialog from "./TaskFormDialog";
 
 interface Props {
@@ -32,10 +20,16 @@ interface Props {
  */
 const TasksTab = () => {
   const { projectId } = useParams({ strict: false });
-  const { data, error, isLoading, fetchNextPage, hasNextPage } = useTasks(
-    projectId!,
-  );
-  const { t } = useAppTranslation();
+  const {
+    data,
+    error,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useTasks(projectId!);
+
+  const skeletons = [...Array(6).keys()];
 
   if (error)
     return <Text>{error.response?.data.message ?? error.message}</Text>;
@@ -43,18 +37,19 @@ const TasksTab = () => {
   const fetchedTasksCount =
     data?.pages.reduce((total, page) => (total += page.results.length), 0) || 0;
 
+  const loader = (
+    <VStack>
+      {skeletons.map((skeleton) => (
+        <GenericCardContainer key={skeleton}>
+          <TaskCardSkeleton />
+        </GenericCardContainer>
+      ))}
+    </VStack>
+  );
+
   return (
     <Box>
       {/* CTA primaria */}
-      {/* <Link
-        to="/app/projects/$projectId/tasks/new"
-        params={{ projectId: projectId! }}
-      >
-        {<Button colorScheme="blue" size="md" mb={6}>
-          <FiPlus />
-          {t("task.creaNuova")}
-        </Button>}
-      </Link> */}
       <TaskFormDialog projectId={projectId!} />
 
       {/* Lista task */}
@@ -63,76 +58,17 @@ const TasksTab = () => {
         dataLength={fetchedTasksCount}
         hasMore={!!hasNextPage}
         next={() => fetchNextPage()}
-        loader={<Spinner />}
+        loader={loader}
       >
-        <VStack gap={3} align="stretch">
-          {isLoading && <Spinner />}
+        {(isLoading || isFetchingNextPage) && loader}
 
+        <VStack gap={3} align="stretch">
           {data?.pages.map((page, index) => (
             <React.Fragment key={index}>
               {page.results.map((task) => (
-                <Card.Root key={task.id} variant="outline">
-                  <Card.Body>
-                    <VStack align="stretch" gap={3}>
-                      {/* Header task */}
-                      <HStack justify="space-between">
-                        <Text fontWeight="semibold" fontSize="md">
-                          {task.titolo}
-                        </Text>
-                        <HStack gap={2}>
-                          <Badge
-                            colorPalette={getTaskPriorityColor(task.priorita)}
-                            fontSize="xs"
-                          >
-                            {t(`task.priorita.${task.priorita}`)}
-                          </Badge>
-                          <Badge
-                            colorPalette={getTaskStatusColor(task.stato)}
-                            fontSize="xs"
-                          >
-                            {t(`task.stato.${task.stato}`)}
-                          </Badge>
-                        </HStack>
-                      </HStack>
-
-                      {/* Progress bar */}
-                      <Progress.Root
-                        value={task.progresso}
-                        size="sm"
-                        colorPalette="blue"
-                      >
-                        <Progress.Track>
-                          <Progress.Range />
-                        </Progress.Track>
-                      </Progress.Root>
-
-                      {/* Metadata */}
-                      <HStack
-                        justify="space-between"
-                        fontSize="sm"
-                        color="gray.600"
-                      >
-                        {task.assegnatario && (
-                          <Flex alignItems="center" gap={1}>
-                            <Text>{t("task.assegnataA")}: </Text>
-                            <UserAvatar
-                              name={task.assegnatario.nominativo}
-                              size="xs"
-                            />
-                            <Text>{task.assegnatario.nominativo}</Text>
-                          </Flex>
-                        )}
-                        <HStack gap={1}>
-                          <FiClock />
-                          <Text>
-                            {t("task.scadenza")}:{" "}
-                            {getFormattedDate(task.dataCreazione)}
-                          </Text>
-                        </HStack>
-                      </HStack>
-                    </VStack>
-                  </Card.Body>
-                </Card.Root>
+                <GenericCardContainer key={task.id}>
+                  <TaskCard task={task} />
+                </GenericCardContainer>
               ))}
             </React.Fragment>
           ))}

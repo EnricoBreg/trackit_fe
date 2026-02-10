@@ -1,5 +1,5 @@
+import GenericCardContainer from "@/components/GenericCardContainer";
 import ProjectCard from "@/components/ProjectCard";
-import ProjectCardContainer from "@/components/ProjectCardContainer";
 import ProjectCardSkeleton from "@/components/ProjectCardSkeleton";
 import useProjects from "@/hooks/useProjects";
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
@@ -24,15 +24,15 @@ const ProjectGrid = () => {
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3, xl: 4 }} gap={6}>
         {isLoading &&
           skeletons.map((skeleton) => (
-            <ProjectCardContainer key={skeleton}>
+            <GenericCardContainer key={skeleton}>
               <ProjectCardSkeleton />
-            </ProjectCardContainer>
+            </GenericCardContainer>
           ))}
 
         {projects.map((project) => (
-          <ProjectCardContainer key={project.id}>
+          <GenericCardContainer key={project.id}>
             <ProjectCard project={project} />
-          </ProjectCardContainer>
+          </GenericCardContainer>
         ))}
       </SimpleGrid>
     </InfiniteScroll>
